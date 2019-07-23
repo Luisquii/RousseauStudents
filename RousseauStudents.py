@@ -1,5 +1,6 @@
 from tkinter import *
-import tkinter as ttk
+import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 import openpyxl as xl
 import datetime
@@ -16,23 +17,23 @@ class Rousseau:
         master.title("Rousseau")
 
         # Labels
-        usernameLabel = ttk.Label(master, text="Username")
+        usernameLabel = tk.Label(master, text="Username")
         #        self.usernameLabel.pack(side=LEFT, padx=1, pady=1)
         usernameLabel.grid(row=0)
 
-        passwordLabel = ttk.Label(master, text="Password")
+        passwordLabel = tk.Label(master, text="Password")
         passwordLabel.grid(row=1)
 
         # Entries
-        self.usernameEntry = ttk.Entry(master)
+        self.usernameEntry = tk.Entry(master)
         self.usernameEntry.grid(row=0, column=1)
         self.usernameEntry.focus()
 
-        self.passwordEntry = ttk.Entry(master, show="*")
+        self.passwordEntry = tk.Entry(master, show="*")
         self.passwordEntry.grid(row=1, column=1)
 
         # Buttons
-        okButton = ttk.Button(master, text="Entrar", fg="black", command=self.getAndVerifyUsernameAndPassword).grid(
+        okButton = tk.Button(master, text="Entrar", fg="black", command=self.getAndVerifyUsernameAndPassword).grid(
             row=2, column=1, sticky=E)
 
     def mainMenuUI(self):
@@ -41,13 +42,13 @@ class Rousseau:
         self.mainMenu.geometry("300x300+50+100")
 
         # Buttons & Binds
-        newStudentButton = ttk.Button(self.mainMenu, text="Nuevo Alumno", width=20, command=self.newStudentUI)
+        newStudentButton = tk.Button(self.mainMenu, text="Nuevo Alumno", width=20, command=self.newStudentUI)
         newStudentButton.pack()
 
-        findStudentButton = ttk.Button(self.mainMenu, text="Buscar Alumno", width=20, command=self.findStudentUI)
+        findStudentButton = tk.Button(self.mainMenu, text="Buscar Alumno", width=20, command=self.findStudentUI)
         findStudentButton.pack()
 
-        deleteStudentButton = ttk.Button(self.mainMenu, text="Borrar Alumno", width=20, command=self.deleteStudentUI)
+        deleteStudentButton = tk.Button(self.mainMenu, text="Borrar Alumno", width=20, command=self.deleteStudentUI)
         deleteStudentButton.pack()
 
     def newStudentUI(self):
@@ -56,94 +57,94 @@ class Rousseau:
         self.newStudent.geometry("1175x700")
 
         # Labels
-        nombreLabel = ttk.Label(self.newStudent, text="Nombre:").grid(row=0, column=0, sticky=E)
-        fechaNacimientoLabel = ttk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=0, column=2, sticky=E)
-        curpLabel = ttk.Label(self.newStudent, text="Curp:").grid(row=0, column=4, sticky=E)
+        nombreLabel = tk.Label(self.newStudent, text="Nombre:").grid(row=0, column=0, sticky=E)
+        fechaNacimientoLabel = tk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=0, column=2, sticky=E)
+        curpLabel = tk.Label(self.newStudent, text="Curp:").grid(row=0, column=4, sticky=E)
 
-        gradoACursarLabel = ttk.Label(self.newStudent, text="Grado a cursar:").grid(row=1, column=0, sticky=E)
-        cicloEscolarLabel = ttk.Label(self.newStudent, text="Ciclo escolar:").grid(row=1, column=2, sticky=E)
-        escuelaProcedenciaLabel = ttk.Label(self.newStudent, text="Escuela de procedencia:").grid(row=1, column=4)
-        claveLabel = ttk.Label(self.newStudent, text="Clave:").grid(row=1, column=6, sticky=E)
-        conQuienViveLabel = ttk.Label(self.newStudent, text="Con quien vive:").grid(row=3, column=0, sticky=E)
+        gradoACursarLabel = tk.Label(self.newStudent, text="Grado a cursar:").grid(row=1, column=0, sticky=E)
+        cicloEscolarLabel = tk.Label(self.newStudent, text="Ciclo escolar:").grid(row=1, column=2, sticky=E)
+        escuelaProcedenciaLabel = tk.Label(self.newStudent, text="Escuela de procedencia:").grid(row=1, column=4)
+        claveLabel = tk.Label(self.newStudent, text="Clave:").grid(row=1, column=6, sticky=E)
+        conQuienViveLabel = tk.Label(self.newStudent, text="Con quien vive:").grid(row=3, column=0, sticky=E)
 
         #############
-        datosGeneralesLabel = ttk.Label(self.newStudent, text="Datos Generales").grid(row=5, column=0, sticky=E)
-        calleLabel = ttk.Label(self.newStudent, text="Calle:").grid(row=6, column=0, sticky=E)
-        coloniaLabel = ttk.Label(self.newStudent, text="Colonia:").grid(row=6, column=2, sticky=E)
-        entreCalles = ttk.Label(self.newStudent, text="Entre que calles:").grid(row=6, column=4, sticky=E)
+        datosGeneralesLabel = tk.Label(self.newStudent, text="Datos Generales").grid(row=5, column=0, sticky=E)
+        calleLabel = tk.Label(self.newStudent, text="Calle:").grid(row=6, column=0, sticky=E)
+        coloniaLabel = tk.Label(self.newStudent, text="Colonia:").grid(row=6, column=2, sticky=E)
+        entreCalles = tk.Label(self.newStudent, text="Entre que calles:").grid(row=6, column=4, sticky=E)
 
-        cpLabel = ttk.Label(self.newStudent, text="C.P.:").grid(row=7, column=0, sticky=E)
-        ciudadLabel = ttk.Label(self.newStudent, text="Ciuidad:").grid(row=7, column=2, sticky=E)
-        telLabel = ttk.Label(self.newStudent, text="Tel:").grid(row=7, column=4, sticky=E)
-        tel2Label = ttk.Label(self.newStudent, text="Otro Tel:").grid(row=7, column=6, sticky=E)
+        cpLabel = tk.Label(self.newStudent, text="C.P.:").grid(row=7, column=0, sticky=E)
+        ciudadLabel = tk.Label(self.newStudent, text="Ciuidad:").grid(row=7, column=2, sticky=E)
+        telLabel = tk.Label(self.newStudent, text="Tel:").grid(row=7, column=4, sticky=E)
+        tel2Label = tk.Label(self.newStudent, text="Otro Tel:").grid(row=7, column=6, sticky=E)
 
-        religionLabel = ttk.Label(self.newStudent, text="Religion:").grid(row=8, column=0, sticky=E)
-        enfermedadesLabel = ttk.Label(self.newStudent, text="Enfermedades o accidentes:").grid(row=8, column=2, sticky=E)
-        sangreLabel = ttk.Label(self.newStudent, text="T. sangre").grid(row=8, column=6, sticky=E)
+        religionLabel = tk.Label(self.newStudent, text="Religion:").grid(row=8, column=0, sticky=E)
+        enfermedadesLabel = tk.Label(self.newStudent, text="Enfermedades o accidentes:").grid(row=8, column=2, sticky=E)
+        sangreLabel = tk.Label(self.newStudent, text="T. sangre").grid(row=8, column=6, sticky=E)
 
-        tratmientoLabel = ttk.Label(self.newStudent, text="Actualmente en tratamiento:").grid(row=9, column=0, sticky=E,
+        tratmientoLabel = tk.Label(self.newStudent, text="Actualmente en tratamiento:").grid(row=9, column=0, sticky=E,
                                                                                              columnspan=2)
-        servicioMedicoLabel = ttk.Label(self.newStudent, text="Servicio medico al que pertenece:").grid(row=10, column=0,
+        servicioMedicoLabel = tk.Label(self.newStudent, text="Servicio medico al que pertenece:").grid(row=10, column=0,
                                                                                                        sticky=E,
                                                                                                        columnspan=2)
-        otroLabel = ttk.Label(self.newStudent, text="Otro:").grid(row=10, column=5, sticky=E)
+        otroLabel = tk.Label(self.newStudent, text="Otro:").grid(row=10, column=5, sticky=E)
 
         ############PoT
-        datosImportantesLabel = ttk.Label(self.newStudent,
+        datosImportantesLabel = tk.Label(self.newStudent,
                                          text="DATOS IMPORTANTES PARA CAPTURAR AL SISTEMA INTEGRAL DE INFORMACION EDUCATIVA DEL MODULO DE CONTROL ESCOLAR DE LA S.E.P.").grid(
             row=12, column=0, columnspan=6)
 
-        nombrePoTLabel = ttk.Label(self.newStudent, text="Nombre padre o tutor:").grid(row=13, column=0, sticky=E)
-        fechaNacimientoPoTLabel = ttk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=13, column=2,
+        nombrePoTLabel = tk.Label(self.newStudent, text="Nombre padre o tutor:").grid(row=13, column=0, sticky=E)
+        fechaNacimientoPoTLabel = tk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=13, column=2,
                                                                                               sticky=E)
-        curpPoTLabel = ttk.Label(self.newStudent, text="Curp:").grid(row=13, column=4, sticky=E)
+        curpPoTLabel = tk.Label(self.newStudent, text="Curp:").grid(row=13, column=4, sticky=E)
 
-        rfcPoTLabel = ttk.Label(self.newStudent, text="R.F.C:").grid(row=14, column=0, sticky=E)
-        lugarNacimientoPoTLabel = ttk.Label(self.newStudent, text="Lugar de nacimiento:").grid(row=14, column=2,
+        rfcPoTLabel = tk.Label(self.newStudent, text="R.F.C:").grid(row=14, column=0, sticky=E)
+        lugarNacimientoPoTLabel = tk.Label(self.newStudent, text="Lugar de nacimiento:").grid(row=14, column=2,
                                                                                               sticky=E)
-        estadoCivilPoTLabel = ttk.Label(self.newStudent, text="Estado Civil:").grid(row=14, column=4, sticky=E)
+        estadoCivilPoTLabel = tk.Label(self.newStudent, text="Estado Civil:").grid(row=14, column=4, sticky=E)
 
-        nacionalidadPoTLabel = ttk.Label(self.newStudent, text="Nacionalidad:").grid(row=15, column=0, sticky=E)
-        profesionPoTLabel = ttk.Label(self.newStudent, text="Profesion:").grid(row=15, column=2, sticky=E)
-        telefonoPoTLabel = ttk.Label(self.newStudent, text="Telefono:").grid(row=15, column=4, sticky=E)
+        nacionalidadPoTLabel = tk.Label(self.newStudent, text="Nacionalidad:").grid(row=15, column=0, sticky=E)
+        profesionPoTLabel = tk.Label(self.newStudent, text="Profesion:").grid(row=15, column=2, sticky=E)
+        telefonoPoTLabel = tk.Label(self.newStudent, text="Telefono:").grid(row=15, column=4, sticky=E)
 
-        celularPoTLabel = ttk.Label(self.newStudent, text="Celular:").grid(row=16, column=0, sticky=E)
-        lugarTrabajoPoTLabel = ttk.Label(self.newStudent, text="Lugar de trabajo:").grid(row=16, column=2, sticky=E)
-        ocupacionPoTLabel = ttk.Label(self.newStudent, text="Ocupacion:").grid(row=16, column=4, sticky=E)
+        celularPoTLabel = tk.Label(self.newStudent, text="Celular:").grid(row=16, column=0, sticky=E)
+        lugarTrabajoPoTLabel = tk.Label(self.newStudent, text="Lugar de trabajo:").grid(row=16, column=2, sticky=E)
+        ocupacionPoTLabel = tk.Label(self.newStudent, text="Ocupacion:").grid(row=16, column=4, sticky=E)
 
-        emailPoTLabel = ttk.Label(self.newStudent, text="E-Mail:").grid(row=17, column=0, sticky=E)
+        emailPoTLabel = tk.Label(self.newStudent, text="E-Mail:").grid(row=17, column=0, sticky=E)
 
         ###########MoT
-        guionMoTLabel = ttk.Label(self.newStudent, text=" ------------------------------------------------"
+        guionMoTLabel = tk.Label(self.newStudent, text=" ------------------------------------------------"
                                                        "------------------------------------------------"
                                                        "------------------------------------------------").grid(row=18,
                                                                                                                 column=1,
                                                                                                                 columnspan=5)
 
-        nombreMoTLabel = ttk.Label(self.newStudent, text="Nombre madre o tutora:").grid(row=19, column=0, sticky=E)
-        fechaNacimientoMoTLabel = ttk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=19, column=2,
+        nombreMoTLabel = tk.Label(self.newStudent, text="Nombre madre o tutora:").grid(row=19, column=0, sticky=E)
+        fechaNacimientoMoTLabel = tk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=19, column=2,
                                                                                               sticky=E)
-        curpMoTLabel = ttk.Label(self.newStudent, text="Curp:").grid(row=19, column=4, sticky=E)
+        curpMoTLabel = tk.Label(self.newStudent, text="Curp:").grid(row=19, column=4, sticky=E)
 
-        rfcMoTLabel = ttk.Label(self.newStudent, text="R.F.C:").grid(row=20, column=0, sticky=E)
-        lugarNacimientoMoTLabel = ttk.Label(self.newStudent, text="Lugar de nacimiento:").grid(row=20, column=2,
+        rfcMoTLabel = tk.Label(self.newStudent, text="R.F.C:").grid(row=20, column=0, sticky=E)
+        lugarNacimientoMoTLabel = tk.Label(self.newStudent, text="Lugar de nacimiento:").grid(row=20, column=2,
                                                                                               sticky=E)
-        estadoCivilMoTLabel = ttk.Label(self.newStudent, text="Estado Civil:").grid(row=20, column=4, sticky=E)
+        estadoCivilMoTLabel = tk.Label(self.newStudent, text="Estado Civil:").grid(row=20, column=4, sticky=E)
 
-        nacionalidadMoTLabel = ttk.Label(self.newStudent, text="Nacionalidad:").grid(row=21, column=0, sticky=E)
-        profesionMoTLabel = ttk.Label(self.newStudent, text="Profesion:").grid(row=21, column=2, sticky=E)
-        telefonoMoTLabel = ttk.Label(self.newStudent, text="Telefono:").grid(row=21, column=4, sticky=E)
+        nacionalidadMoTLabel = tk.Label(self.newStudent, text="Nacionalidad:").grid(row=21, column=0, sticky=E)
+        profesionMoTLabel = tk.Label(self.newStudent, text="Profesion:").grid(row=21, column=2, sticky=E)
+        telefonoMoTLabel = tk.Label(self.newStudent, text="Telefono:").grid(row=21, column=4, sticky=E)
 
-        celularMoTLabel = ttk.Label(self.newStudent, text="Celular:").grid(row=22, column=0, sticky=E)
-        lugarTrabajoMoTLabel = ttk.Label(self.newStudent, text="Lugar de trabajo:").grid(row=22, column=2, sticky=E)
-        ocupacionMoTLabel = ttk.Label(self.newStudent, text="Ocupacion:").grid(row=22, column=4, sticky=E)
+        celularMoTLabel = tk.Label(self.newStudent, text="Celular:").grid(row=22, column=0, sticky=E)
+        lugarTrabajoMoTLabel = tk.Label(self.newStudent, text="Lugar de trabajo:").grid(row=22, column=2, sticky=E)
+        ocupacionMoTLabel = tk.Label(self.newStudent, text="Ocupacion:").grid(row=22, column=4, sticky=E)
 
-        emailMoTLabel = ttk.Label(self.newStudent, text="E-Mail:").grid(row=23, column=0, sticky=E)
+        emailMoTLabel = tk.Label(self.newStudent, text="E-Mail:").grid(row=23, column=0, sticky=E)
 
-        referenciaLabel = ttk.Label(self.newStudent, text="RECIBIO REFERENCIA DE NUESTRA INSTITUCION A TRAVES DE:").grid(
+        referenciaLabel = tk.Label(self.newStudent, text="RECIBIO REFERENCIA DE NUESTRA INSTITUCION A TRAVES DE:").grid(
             row=26, column=1, columnspan=5)
 
-        datosCompletosLabel = ttk.Label(self.newStudent,
+        datosCompletosLabel = tk.Label(self.newStudent,
                                        text="***REVISAR QUE TODOS LOS DATOS ESTEN COMPLETOS Y CORRECTOS***").grid(
             row=28, column=1, columnspan=5)
 
@@ -153,7 +154,7 @@ class Rousseau:
         cicloEscolarChoices = ["2019-2020", "2020-2021", "2021-2022", "2022-2023", "2023-2024", "2024-2025",
                                "2025-2026", "2026-2027", "2027-2028", "2028-2029", "2029-2030"]
         self.cicloEscolarVar.set('2019-2020')  # set the default option
-        cicloEscolarpopupMenu = ttk.OptionMenu(self.newStudent, self.cicloEscolarVar, *cicloEscolarChoices).grid(row=1,
+        cicloEscolarpopupMenu = tk.OptionMenu(self.newStudent, self.cicloEscolarVar, *cicloEscolarChoices).grid(row=1,
                                                                                                                 column=3,
                                                                                                                 sticky=W)
 
@@ -161,112 +162,112 @@ class Rousseau:
         gradoACursarChoices = ["Kinder 1", "Kinder 2", "Kinder 3", "1 Primaria", "2 Primaria", "3 Primaria",
                                "4 Primaria", "5 Primaria", "6 Primaria", "1 Secundaria", "2 Secundaria", "3 Secundaria"]
         self.gradoACursarVar.set("Kinder 1")  # Set the default option
-        gradoACursarpopupMenu = ttk.OptionMenu(self.newStudent, self.gradoACursarVar, *gradoACursarChoices).grid(row=1,
+        gradoACursarpopupMenu = tk.OptionMenu(self.newStudent, self.gradoACursarVar, *gradoACursarChoices).grid(row=1,
                                                                                                                 column=1,
                                                                                                                 sticky=W)
 
         # Entries
-        self.nombreEntry = ttk.Entry(self.newStudent, width=30);
+        self.nombreEntry = tk.Entry(self.newStudent, width=30);
         self.nombreEntry.grid(row=0, column=1);
         self.nombreEntry.focus()
-        self.fechaNacimientoEntry = ttk.Entry(self.newStudent);
+        self.fechaNacimientoEntry = tk.Entry(self.newStudent);
         self.fechaNacimientoEntry.grid(row=0, column=3, sticky=W)
-        self.curpEntry = ttk.Entry(self.newStudent);
+        self.curpEntry = tk.Entry(self.newStudent);
         self.curpEntry.grid(row=0, column=5, sticky=W)
 
-        self.escuelaProcedenciaEntry = ttk.Entry(self.newStudent, width=25);
+        self.escuelaProcedenciaEntry = tk.Entry(self.newStudent, width=25);
         self.escuelaProcedenciaEntry.grid(row=1, column=5)
-        self.claveEntry = ttk.Entry(self.newStudent, width=10);
+        self.claveEntry = tk.Entry(self.newStudent, width=10);
         self.claveEntry.grid(row=1, column=7, sticky=W)
 
-        self.calleEntry = ttk.Entry(self.newStudent, width=30);
+        self.calleEntry = tk.Entry(self.newStudent, width=30);
         self.calleEntry.grid(row=6, column=1, sticky=W)
-        self.coloniaEntry = ttk.Entry(self.newStudent, width=25);
+        self.coloniaEntry = tk.Entry(self.newStudent, width=25);
         self.coloniaEntry.grid(row=6, column=3, sticky=W)
-        self.entreCallesEntry = ttk.Entry(self.newStudent, width=49);
+        self.entreCallesEntry = tk.Entry(self.newStudent, width=49);
         self.entreCallesEntry.grid(row=6, column=5, sticky=W, columnspan=3)
 
-        self.cpEntry = ttk.Entry(self.newStudent);
+        self.cpEntry = tk.Entry(self.newStudent);
         self.cpEntry.grid(row=7, column=1, sticky=W)
-        self.ciudadEntry = ttk.Entry(self.newStudent);
+        self.ciudadEntry = tk.Entry(self.newStudent);
         self.ciudadEntry.grid(row=7, column=3, sticky=W)
-        self.telEntry = ttk.Entry(self.newStudent);
+        self.telEntry = tk.Entry(self.newStudent);
         self.telEntry.grid(row=7, column=5, sticky=W)
-        self.tel2Entry = ttk.Entry(self.newStudent);
+        self.tel2Entry = tk.Entry(self.newStudent);
         self.tel2Entry.grid(row=7, column=7, sticky=W)
 
-        self.religionEntry = ttk.Entry(self.newStudent);
+        self.religionEntry = tk.Entry(self.newStudent);
         self.religionEntry.grid(row=8, column=1, sticky=W)
-        self.enfermedadesEntry = ttk.Entry(self.newStudent, width=65);
+        self.enfermedadesEntry = tk.Entry(self.newStudent, width=65);
         self.enfermedadesEntry.grid(row=8, column=3, sticky=W, columnspan=3)
-        self.sangreEntry = ttk.Entry(self.newStudent);
+        self.sangreEntry = tk.Entry(self.newStudent);
         self.sangreEntry.grid(row=8, column=7)
 
-        self.otroEntry = ttk.Entry(self.newStudent);
+        self.otroEntry = tk.Entry(self.newStudent);
         self.otroEntry.grid(row=10, column=6)
 
         ############PoT
-        self.nombrePoTEntry = ttk.Entry(self.newStudent, width=30);
+        self.nombrePoTEntry = tk.Entry(self.newStudent, width=30);
         self.nombrePoTEntry.grid(row=13, column=1, sticky=W)
-        self.fechaNacimientoPoTEntry = ttk.Entry(self.newStudent);
+        self.fechaNacimientoPoTEntry = tk.Entry(self.newStudent);
         self.fechaNacimientoPoTEntry.grid(row=13, column=3, sticky=W)
-        self.curpPoTEntry = ttk.Entry(self.newStudent);
+        self.curpPoTEntry = tk.Entry(self.newStudent);
         self.curpPoTEntry.grid(row=13, column=5, sticky=W)
 
-        self.rfcPoTEntry = ttk.Entry(self.newStudent);
+        self.rfcPoTEntry = tk.Entry(self.newStudent);
         self.rfcPoTEntry.grid(row=14, column=1, sticky=W)
-        self.lugarNacimientoPoTEntry = ttk.Entry(self.newStudent);
+        self.lugarNacimientoPoTEntry = tk.Entry(self.newStudent);
         self.lugarNacimientoPoTEntry.grid(row=14, column=3, sticky=W)
-        self.estadoCivilPoTEntry = ttk.Entry(self.newStudent);
+        self.estadoCivilPoTEntry = tk.Entry(self.newStudent);
         self.estadoCivilPoTEntry.grid(row=14, column=5, sticky=W)
 
-        self.nacionalidadPoTEntry = ttk.Entry(self.newStudent);
+        self.nacionalidadPoTEntry = tk.Entry(self.newStudent);
         self.nacionalidadPoTEntry.grid(row=15, column=1, sticky=W)
-        self.profesionPoTEntry = ttk.Entry(self.newStudent);
+        self.profesionPoTEntry = tk.Entry(self.newStudent);
         self.profesionPoTEntry.grid(row=15, column=3, sticky=W)
-        self.telefonoPoTEntry = ttk.Entry(self.newStudent);
+        self.telefonoPoTEntry = tk.Entry(self.newStudent);
         self.telefonoPoTEntry.grid(row=15, column=5, sticky=W)
 
-        self.celularPoTEntry = ttk.Entry(self.newStudent);
+        self.celularPoTEntry = tk.Entry(self.newStudent);
         self.celularPoTEntry.grid(row=16, column=1, sticky=W)
-        self.lugarTrabajoPoTEntry = ttk.Entry(self.newStudent);
+        self.lugarTrabajoPoTEntry = tk.Entry(self.newStudent);
         self.lugarTrabajoPoTEntry.grid(row=16, column=3, sticky=W)
-        self.ocupacionPoTEntry = ttk.Entry(self.newStudent);
+        self.ocupacionPoTEntry = tk.Entry(self.newStudent);
         self.ocupacionPoTEntry.grid(row=16, column=5, sticky=W)
 
-        self.emailPoTEntry = ttk.Entry(self.newStudent);
+        self.emailPoTEntry = tk.Entry(self.newStudent);
         self.emailPoTEntry.grid(row=17, column=1, sticky=W)
 
         ###########MoT
-        self.nombreMoTEntry = ttk.Entry(self.newStudent, width=30);
+        self.nombreMoTEntry = tk.Entry(self.newStudent, width=30);
         self.nombreMoTEntry.grid(row=19, column=1, sticky=W)
-        self.fechaNacimientoMoTEntry = ttk.Entry(self.newStudent);
+        self.fechaNacimientoMoTEntry = tk.Entry(self.newStudent);
         self.fechaNacimientoMoTEntry.grid(row=19, column=3, sticky=W)
-        self.curpMoTEntry = ttk.Entry(self.newStudent);
+        self.curpMoTEntry = tk.Entry(self.newStudent);
         self.curpMoTEntry.grid(row=19, column=5, sticky=W)
 
-        self.rfcMoTEntry = ttk.Entry(self.newStudent);
+        self.rfcMoTEntry = tk.Entry(self.newStudent);
         self.rfcMoTEntry.grid(row=20, column=1, sticky=W)
-        self.lugarNacimientoMoTEntry = ttk.Entry(self.newStudent);
+        self.lugarNacimientoMoTEntry = tk.Entry(self.newStudent);
         self.lugarNacimientoMoTEntry.grid(row=20, column=3, sticky=W)
-        self.estadoCivilMoTEntry = ttk.Entry(self.newStudent);
+        self.estadoCivilMoTEntry = tk.Entry(self.newStudent);
         self.estadoCivilMoTEntry.grid(row=20, column=5, sticky=W)
 
-        self.nacionalidadMoTEntry = ttk.Entry(self.newStudent);
+        self.nacionalidadMoTEntry = tk.Entry(self.newStudent);
         self.nacionalidadMoTEntry.grid(row=21, column=1, sticky=W)
-        self.profesionMoTEntry = ttk.Entry(self.newStudent);
+        self.profesionMoTEntry = tk.Entry(self.newStudent);
         self.profesionMoTEntry.grid(row=21, column=3, sticky=W)
-        self.telefonoMoTEntry = ttk.Entry(self.newStudent);
+        self.telefonoMoTEntry = tk.Entry(self.newStudent);
         self.telefonoMoTEntry.grid(row=21, column=5, sticky=W)
 
-        self.celularMoTEntry = ttk.Entry(self.newStudent);
+        self.celularMoTEntry = tk.Entry(self.newStudent);
         self.celularMoTEntry.grid(row=22, column=1, sticky=W)
-        self.lugarTrabajoMoTEntry = ttk.Entry(self.newStudent);
+        self.lugarTrabajoMoTEntry = tk.Entry(self.newStudent);
         self.lugarTrabajoMoTEntry.grid(row=22, column=3, sticky=W)
-        self.ocupacionMoTEntry = ttk.Entry(self.newStudent);
+        self.ocupacionMoTEntry = tk.Entry(self.newStudent);
         self.ocupacionMoTEntry.grid(row=22, column=5, sticky=W)
 
-        self.emailMoTEntry = ttk.Entry(self.newStudent);
+        self.emailMoTEntry = tk.Entry(self.newStudent);
         self.emailMoTEntry.grid(row=23, column=1, sticky=W)
 
         # Checkboxes
@@ -276,53 +277,53 @@ class Rousseau:
         self.isssteCBVar.set(False);
         self.pemexCBVar = BooleanVar();
         self.pemexCBVar.set(False)
-        imssCB = ttk.Checkbutton(self.newStudent, text="IMSS", variable=self.imssCBVar).grid(row=10, column=2, sticky=E)
-        issteCB = ttk.Checkbutton(self.newStudent, text="ISSSTE", variable=self.isssteCBVar).grid(row=10, column=3,
+        imssCB = tk.Checkbutton(self.newStudent, text="IMSS", variable=self.imssCBVar).grid(row=10, column=2, sticky=E)
+        issteCB = tk.Checkbutton(self.newStudent, text="ISSSTE", variable=self.isssteCBVar).grid(row=10, column=3,
                                                                                                  sticky=E)
-        pemexCB = ttk.Checkbutton(self.newStudent, text="PEMEX", variable=self.pemexCBVar).grid(row=10, column=4,
+        pemexCB = tk.Checkbutton(self.newStudent, text="PEMEX", variable=self.pemexCBVar).grid(row=10, column=4,
                                                                                                sticky=E)
 
         # RadioButtons
         self.responsabeRBVar = StringVar();
         self.responsabeRBVar.set(False)
-        madreRB = ttk.Radiobutton(self.newStudent, text="MADRE", variable=self.responsabeRBVar, value="Madre").grid(
+        madreRB = tk.Radiobutton(self.newStudent, text="MADRE", variable=self.responsabeRBVar, value="Madre").grid(
             row=3, column=1)
-        padreRB = ttk.Radiobutton(self.newStudent, text="PADRE", variable=self.responsabeRBVar, value="Padre").grid(
+        padreRB = tk.Radiobutton(self.newStudent, text="PADRE", variable=self.responsabeRBVar, value="Padre").grid(
             row=3, column=2)
-        ambosRB = ttk.Radiobutton(self.newStudent, text="AMBOS", variable=self.responsabeRBVar, value="Ambos").grid(
+        ambosRB = tk.Radiobutton(self.newStudent, text="AMBOS", variable=self.responsabeRBVar, value="Ambos").grid(
             row=3, column=3)
-        tutorRB = ttk.Radiobutton(self.newStudent, text="TUTOR(A)", variable=self.responsabeRBVar, value="Tutor").grid(
+        tutorRB = tk.Radiobutton(self.newStudent, text="TUTOR(A)", variable=self.responsabeRBVar, value="Tutor").grid(
             row=3, column=4)
 
         self.sinoRBVar = StringVar();
         self.sinoRBVar.set(False)
-        siRB = ttk.Radiobutton(self.newStudent, text="Si", variable=self.sinoRBVar, value="Si").grid(row=9, column=2,
+        siRB = tk.Radiobutton(self.newStudent, text="Si", variable=self.sinoRBVar, value="Si").grid(row=9, column=2,
                                                                                                     sticky=E)
-        noRB = ttk.Radiobutton(self.newStudent, text="No", variable=self.sinoRBVar, value="No").grid(row=9, column=3,
+        noRB = tk.Radiobutton(self.newStudent, text="No", variable=self.sinoRBVar, value="No").grid(row=9, column=3,
                                                                                                     sticky=E)
 
         self.referenciaRBVar = StringVar();
         self.referenciaRBVar.set(False)
-        directorioRB = ttk.Radiobutton(self.newStudent, text="ANUNCIO DIRECTORIO", variable=self.referenciaRBVar,
+        directorioRB = tk.Radiobutton(self.newStudent, text="ANUNCIO DIRECTORIO", variable=self.referenciaRBVar,
                                       value="directorio").grid(row=27, column=1, sticky=E)
-        periodicoRB = ttk.Radiobutton(self.newStudent, text="REDES SOCIALES", variable=self.referenciaRBVar,
+        periodicoRB = tk.Radiobutton(self.newStudent, text="REDES SOCIALES", variable=self.referenciaRBVar,
                                      value="periodico").grid(row=27, column=2, sticky=E)
-        famoamistadRB = ttk.Radiobutton(self.newStudent, text="FAMILIAR / AMISTAD", variable=self.referenciaRBVar,
+        famoamistadRB = tk.Radiobutton(self.newStudent, text="FAMILIAR / AMISTAD", variable=self.referenciaRBVar,
                                        value="familiar/amistad").grid(row=27, column=3, sticky=E)
-        webRB = ttk.Radiobutton(self.newStudent, text="PAGINA WEB", variable=self.referenciaRBVar, value="Web").grid(
+        webRB = tk.Radiobutton(self.newStudent, text="PAGINA WEB", variable=self.referenciaRBVar, value="Web").grid(
             row=27, column=4, sticky=E)
-        espectacularRB = ttk.Radiobutton(self.newStudent, text="ESPECTACULAR", variable=self.referenciaRBVar,
+        espectacularRB = tk.Radiobutton(self.newStudent, text="ESPECTACULAR", variable=self.referenciaRBVar,
                                         value="espectacular").grid(row=27, column=5, sticky=E)
 
         # Buttons
-        self.agregarButton = ttk.Button(self.newStudent, text="Agregar", fg="black", command=self.getDataFromNewStudent)
+        self.agregarButton = tk.Button(self.newStudent, text="Agregar", fg="black", command=self.getDataFromNewStudent)
         self.agregarButton.grid(row=29, column=5, sticky=E)
-        self.limpiarButton = ttk.Button(self.newStudent, text="Limpiar", fg="black",
+        self.limpiarButton = tk.Button(self.newStudent, text="Limpiar", fg="black",
                                        command=self.clearDataFromNewStudent)
         self.limpiarButton.grid(row=29, column=4, sticky=E)
 
         # ProgressBar
-        # self.progressBar = ttk.Progressbar(self); self.progressBar.grid(row = 30, column = 4, columnspan=2, width =  200, sticky = E)
+        self.progressBar = ttk.Progressbar(self.newStudent); self.progressBar.grid(row = 30, column = 4, columnspan=2, sticky = E)
 
     def findStudentUI(self):
         x = 1
@@ -610,7 +611,7 @@ class rousseauXL:
 
 
 def main():
-    root = ttk.Tk()
+    root = tk.Tk()
     w = 200;
     h = 100;
     x = 50;
