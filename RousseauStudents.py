@@ -4,14 +4,17 @@ from tkinter import ttk
 from tkinter import messagebox
 import openpyxl as xl
 import datetime
+from PIL import Image, ImageTk
 
 
 class Rousseau:
+    global alumnosxlsxFlag
 
     def __init__(self, master):
         self.initUI(master)
 
     def initUI(self, master):
+
         self.master = master
 
         master.title("Rousseau")
@@ -38,6 +41,7 @@ class Rousseau:
 
     def mainMenuUI(self):
         self.mainMenu = Toplevel(self.master)
+        self.mainMenu.iconbitmap("imgs/Papalote.ico")
         self.mainMenu.title("Menu Principal")
         self.mainMenu.geometry("300x300+50+100")
 
@@ -53,11 +57,12 @@ class Rousseau:
 
     def newStudentUI(self):
         self.newStudent = Toplevel(self.mainMenu)
+        self.newStudent.iconbitmap("imgs/Papalote.ico")
         self.newStudent.title("Agregar nuevo alumno")
         self.newStudent.geometry("1175x700")
 
         # Labels
-        nombreLabel = tk.Label(self.newStudent, text="Nombre:").grid(row=0, column=0, sticky=E)
+        nombreLabel = tk.Label(self.newStudent, text="Apellidos y Nombres:").grid(row=0, column=0, sticky=E)
         fechaNacimientoLabel = tk.Label(self.newStudent, text="Fecha de nacimiento:").grid(row=0, column=2, sticky=E)
         curpLabel = tk.Label(self.newStudent, text="Curp:").grid(row=0, column=4, sticky=E)
 
@@ -69,7 +74,7 @@ class Rousseau:
 
         #############
         datosGeneralesLabel = tk.Label(self.newStudent, text="Datos Generales").grid(row=5, column=0, sticky=E)
-        calleLabel = tk.Label(self.newStudent, text="Calle:").grid(row=6, column=0, sticky=E)
+        calleLabel = tk.Label(self.newStudent, text="Calle y Numero:").grid(row=6, column=0, sticky=E)
         coloniaLabel = tk.Label(self.newStudent, text="Colonia:").grid(row=6, column=2, sticky=E)
         entreCalles = tk.Label(self.newStudent, text="Entre que calles:").grid(row=6, column=4, sticky=E)
 
@@ -323,16 +328,29 @@ class Rousseau:
         self.limpiarButton.grid(row=29, column=4, sticky=E)
 
         # ProgressBar
-        self.progressBar = ttk.Progressbar(self.newStudent); self.progressBar.grid(row = 30, column = 4, columnspan=2, sticky = E)
+        self.progressBar = ttk.Progressbar(self.newStudent, length=100)
+        self.progressBar.grid(row=30, column=6, sticky=E)
+
+        # Images
+        load = Image.open("imgs\LogoBlanco.png")
+        load = load.resize((175, 175), Image.ANTIALIAS)
+        render = ImageTk.PhotoImage(load)
+        img = Label(self.newStudent, image=render)
+        img.image = render
+        img.place(x=0, y=515)
 
     def findStudentUI(self):
-        x = 1
+        self.newStudent = Toplevel(self.mainMenu)
+        self.newStudent.iconbitmap("imgs/Papalote.ico")
+        self.newStudent.title("Agregar nuevo alumno")
+        self.newStudent.geometry("1175x700")
 
     def deleteStudentUI(self):
         x = 1
 
     # Logic Functions
     def getDataFromNewStudent(self):
+        self.progressBar["value"] = 10
         newStudentDict = {
             "nombre": self.nombreEntry.get(),
             "fechaNacimiento": self.fechaNacimientoEntry.get(),
@@ -396,11 +414,7 @@ class Rousseau:
         }
 
         print(newStudentDict)
-        print
-        "-"
         print(newStudentPoTDict)
-        print
-        "-"
         print(newStudentMoTDict)
 
         if newStudentDict["nombre"] == "":
@@ -422,12 +436,33 @@ class Rousseau:
             del newStudentMoTDict
             del newStudentReference
         else:
-            xlObj = rousseauXL()
-            xlObj.validateSheet()
-            xlObj.findRowToWrite()
-            xlObj.addNewStudent(newStudentDict, newStudentPoTDict, newStudentMoTDict, newStudentReference)
-            xlObj.save()
-            del xlObj
+            self.progressBar["value"] = 40
+            try:
+                xlObj = rousseauXL()
+                self.progressBar["value"] = 60
+                self.alumnosxlsxFlag = True
+            except:
+                messagebox.showerror("ERROR", "NO SE ENCONTRO 'Alummnos.xlsx' SI TIENE DUDAS LEA 'README.TXT'")
+                self.newStudent.destroy()
+                self.alumnosxlsxFlag = False
+
+            if self.alumnosxlsxFlag:
+                if xlObj.validateSheet():
+                    self.progressBar["value"] = 80
+                    xlObj.findRowToWrite()
+                    self.progressBar["value"] = 90
+                    xlObj.addNewStudent(newStudentDict, newStudentPoTDict, newStudentMoTDict, newStudentReference)
+                    self.progressBar["value"] = 95
+                    self.clearDataFromNewStudent()
+                    xlObj.save()
+                    self.progressBar["value"] = 100
+                    self.showTextBox("Info", "ALUMNO {} GUARDADO CON EXITO!".format(newStudentDict["nombre"]))
+                    del xlObj
+                    self.progressBar["value"] = 0
+                    pass
+                else:
+                    self.progressBar["value"] = 0
+                    self.showTextBox("Error", "ALUMNO NO AGREGADO, VERIFIQUE EL ARCHIVO DE EXCEL 'Alumnos.xlsx'")
 
     def clearDataFromNewStudent(self):
         self.nombreEntry.delete(0, 'end');
@@ -519,6 +554,7 @@ class rousseauXL:
             nombreFlag = True
         else:
             nombreFlag = False
+        return nombreFlag
 
     def findRowToWrite(self):
         for row in range(2, self.ws.max_row + 2):
@@ -532,7 +568,6 @@ class rousseauXL:
 
     def addNewStudent(self, newStudentDict, newStudentPoTDict, newStudentMoTDict, newStudentReference):
         print(self.emptyCol, self.emptyRow)
-
         self.ws.cell(row=self.emptyRow, column=1).value = newStudentDict["nombre"]
         self.ws.cell(row=self.emptyRow, column=2).value = newStudentDict["fechaNacimiento"]
         self.ws.cell(row=self.emptyRow, column=3).value = newStudentDict["curp"]
@@ -612,12 +647,14 @@ class rousseauXL:
 
 def main():
     root = tk.Tk()
-    w = 200;
-    h = 100;
+    w = 250;
+    h = 75;
     x = 50;
     y = 100
     root.geometry("%dx%d+%d+%d" % (w, h, x, y))
+    root.iconbitmap("imgs/Papalote.ico")
     loginWindow = Rousseau(root)
+
     root.mainloop()
 
 
