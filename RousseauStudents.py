@@ -79,7 +79,7 @@ class Rousseau:
         entreCalles = tk.Label(self.newStudent, text="Entre que calles:").grid(row=6, column=4, sticky=E)
 
         cpLabel = tk.Label(self.newStudent, text="C.P.:").grid(row=7, column=0, sticky=E)
-        ciudadLabel = tk.Label(self.newStudent, text="Ciuidad:").grid(row=7, column=2, sticky=E)
+        ciudadLabel = tk.Label(self.newStudent, text="Ciudad:").grid(row=7, column=2, sticky=E)
         telLabel = tk.Label(self.newStudent, text="Tel:").grid(row=7, column=4, sticky=E)
         tel2Label = tk.Label(self.newStudent, text="Otro Tel:").grid(row=7, column=6, sticky=E)
 
@@ -342,7 +342,7 @@ class Rousseau:
     def findStudentUI(self):
         self.newStudent = Toplevel(self.mainMenu)
         self.newStudent.iconbitmap("imgs/Papalote.ico")
-        self.newStudent.title("Agregar nuevo alumno")
+        self.newStudent.title("Buscar Alumno")
         self.newStudent.geometry("1175x700")
 
     def deleteStudentUI(self):
@@ -456,7 +456,7 @@ class Rousseau:
                     self.clearDataFromNewStudent()
                     xlObj.save()
                     self.progressBar["value"] = 100
-                    self.showTextBox("Info", "ALUMNO {} GUARDADO CON EXITO!".format(newStudentDict["nombre"]))
+                    self.showTextBox("Info", "ALUMNO(A) {} GUARDADO CON EXITO!".format(newStudentDict["nombre"]))
                     del xlObj
                     self.progressBar["value"] = 0
                     pass
