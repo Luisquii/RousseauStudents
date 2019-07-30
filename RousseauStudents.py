@@ -9,7 +9,7 @@ from PIL import Image, ImageTk
 
 class Rousseau:
     global alumnosxlsxFlag
-
+    global names_list
     def __init__(self, master):
         self.initUI(master)
 
@@ -340,13 +340,69 @@ class Rousseau:
         img.place(x=0, y=515)
 
     def findStudentUI(self):
-        self.newStudent = Toplevel(self.mainMenu)
-        self.newStudent.iconbitmap("imgs/Papalote.ico")
-        self.newStudent.title("Buscar Alumno")
-        self.newStudent.geometry("1175x700")
+
+        def on_keyrelease(event):
+
+            # get text from entry
+            value = event.widget.get()
+            value = value.strip().lower()
+
+            # get data from names_list
+            if value == '':
+                data = self.names_list
+            else:
+                data = []
+                for item in self.names_list:
+                    if value in item.lower():
+                        data.append(item)
+
+            # update data in listbox
+            listbox_update(data)
+
+        def listbox_update(data):
+            # delete previous data
+            self.nombresListbox.delete(0, 'end')
+
+            # sorting data
+            data = sorted(data, key=str.lower)
+
+            # put new data
+            for item in data:
+                self.nombresListbox.insert('end', item)
+
+        def on_select(event):
+            # display element selected on list
+            print('(event) previous:', event.widget.get('active'))
+            print('(event)  current:', event.widget.get(event.widget.curselection()))
+            print('---')
+
+        self.findStudent = Toplevel(self.mainMenu)
+        self.findStudent.iconbitmap("imgs/Papalote.ico")
+        self.findStudent.title("Buscar Alumno")
+        self.findStudent.geometry("1175x700")
+
+        xlObj2 = rousseauXL()
+        self.names_list = xlObj2.getNamesList()
+
+        #Labels
+        self.nombreAlumnoLabel = tk.Label(self.findStudent, text = "Nombre del alumno:"); self.nombreAlumnoLabel.grid(column = 0, row = 0, sticky = W);
+
+
+        #Entries
+        self.nombreAlumnoEntry = tk.Entry(self.findStudent, width = 60); self.nombreAlumnoEntry.grid(row = 1, column = 0); self.nombreAlumnoEntry.bind('<KeyRelease>', on_keyrelease)
+
+
+        #Lists
+        self.nombresListbox = tk.Listbox(self.findStudent, width=60); self.nombresListbox.grid(row = 2, column = 0);
+        self.nombresListbox.bind('<<ListboxSelect>>', on_select)
+        listbox_update(self.names_list)
 
     def deleteStudentUI(self):
         x = 1
+
+
+
+
 
     # Logic Functions
     def getDataFromNewStudent(self):
@@ -538,6 +594,8 @@ class Rousseau:
             messagebox.showerror("Error", message)
 
 
+
+
 class rousseauXL:
     global wb
     global ws
@@ -643,6 +701,17 @@ class rousseauXL:
 
     def save(self):
         self.wb.save(filename="Alumnos.xlsx")
+
+    def getNamesList(self):
+        names_list = []
+        for row in range(2, self.ws.max_row + 1):
+            for column in "A":
+                cell_name = "{}{}".format(column, row)
+                # print("ROW: " + str(row) )
+                # print("{},{}".format(column, row) + str(ws[cell_name].value))
+                names_list.append(str(self.ws[cell_name].value))
+
+        return names_list
 
 
 def main():
