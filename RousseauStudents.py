@@ -56,7 +56,10 @@ class Rousseau:
         newStudentButton.place(x = 0, y = 20)
 
         findStudentButton = tk.Button(self.mainMenu, text="Buscar Alumno", width=20, command=self.findStudentUI)
-        findStudentButton.place(x = 0, y = 60)
+        findStudentButton.place(x = 0, y = 50)
+
+        updateStudentButton = tk.Button(self.mainMenu, text = "Actualizar Alumnos", width = 20, command = self.updateStudentUI)
+        updateStudentButton.place(x=0, y = 80)
 
         #Hyperlink
         webpageLink = tk.Label(self.mainMenu, text = "Colegio Rousseau Webpage", fg = "blue", cursor = "hand2")
@@ -181,9 +184,9 @@ class Rousseau:
                                                                                                                 sticky=W)
 
         self.gradoACursarVar = StringVar(self.newStudent)
-        gradoACursarChoices = ["Kinder 1", "Kinder 2", "Kinder 3", "1 Primaria", "2 Primaria", "3 Primaria",
+        gradoACursarChoices = ["1 Kinder", "2 Kinder", "3 Kinder", "1 Primaria", "2 Primaria", "3 Primaria",
                                "4 Primaria", "5 Primaria", "6 Primaria", "1 Secundaria", "2 Secundaria", "3 Secundaria"]
-        self.gradoACursarVar.set("Kinder 1")  # Set the default option
+        self.gradoACursarVar.set("1 Kinder")  # Set the default option
         gradoACursarpopupMenu = tk.OptionMenu(self.newStudent, self.gradoACursarVar, *gradoACursarChoices).grid(row=1,
                                                                                                                 column=1,
                                                                                                                 sticky=W)
@@ -421,18 +424,20 @@ class Rousseau:
         self.gradoACursarLabel = tk.Label(self.findStudent, text = "Grado en que fue inscrito:"); self.gradoACursarLabel.grid(column = 0, row = 7 , sticky = E);
         self.cicloEscolarLabel = tk.Label(self.findStudent, text = "Ciclo en que fue inscrito:"); self.cicloEscolarLabel.grid(column = 0, row = 8, sticky = E)
         self.gradoEnCursoLabel = tk.Label(self.findStudent, text = "Grado en curso:"); self.gradoEnCursoLabel.grid(column = 0, row = 9, sticky = E)
-        self.conQuienViveLabel = tk.Label(self.findStudent, text = "Con quien vive:"); self.conQuienViveLabel.grid(column = 0, row = 10, sticky = E)
-        self.calleAlumnoLabel = tk.Label(self.findStudent, text = "Calle:"); self.calleAlumnoLabel.grid(column = 0 , row = 11, sticky = E)
-        self.coloniaAlumnoLabel = tk.Label(self.findStudent, text = "Colonia:");self.coloniaAlumnoLabel.grid(column = 0, row = 12, sticky = E)
-        self.cpAlumnoLabel = tk.Label(self.findStudent, text = "C.P.:"); self.cpAlumnoLabel.grid(column = 0, row = 13, sticky = E)
-        self.ciudadAlumnoLabel = tk.Label(self.findStudent, text = "Ciudad:");self.ciudadAlumnoLabel.grid(column = 0, row = 14, sticky = E)
-        self.entreCallesAlumnoLabel = tk.Label(self.findStudent, text = "Entre calles:"); self.entreCallesAlumnoLabel.grid(column = 0, row = 15, sticky = E)
-        self.telefonoAlumnoLabel = tk.Label(self.findStudent, text = "Telefono:"); self.telefonoAlumnoLabel.grid(column = 0, row = 16, sticky = E)
-        self.telefono2AlumnoLabel = tk.Label(self.findStudent, text = "Otro telefono:"); self.telefono2AlumnoLabel.grid(column = 0, row = 17, sticky = E)
-        self.enfermedadesLabel = tk.Label(self.findStudent, text = "Enfermedades:"); self.enfermedadesLabel.grid(column = 0, row = 18, sticky = E)
-        self.tipoSangreLabel = tk.Label(self.findStudent, text = "Tipo de sangre:"); self.tipoSangreLabel.grid(column = 0 , row = 19, sticky = E)
-        self.enTratamientoLabel = tk.Label(self.findStudent, text = "En tratamiento:"); self.enTratamientoLabel.grid(column = 0, row = 20, sticky = E)
-        self.servicioMedicoLabel = tk.Label(self.findStudent, text = "Servicio medico:"); self.servicioMedicoLabel.grid(column = 0, row = 21, sticky = E)
+        self.cicloEnCursoLabel = tk.Label(self.findStudent, text = "Ciclo en Curso:"); self.cicloEnCursoLabel.grid(column = 0, row = 10, sticky = E)
+        self.conQuienViveLabel = tk.Label(self.findStudent, text = "Con quien vive:"); self.conQuienViveLabel.grid(column = 0, row = 11, sticky = E)
+        self.calleAlumnoLabel = tk.Label(self.findStudent, text = "Calle:"); self.calleAlumnoLabel.grid(column = 0 , row = 12, sticky = E)
+        self.coloniaAlumnoLabel = tk.Label(self.findStudent, text = "Colonia:");self.coloniaAlumnoLabel.grid(column = 0, row = 13, sticky = E)
+        self.cpAlumnoLabel = tk.Label(self.findStudent, text = "C.P.:"); self.cpAlumnoLabel.grid(column = 0, row = 14, sticky = E)
+        self.ciudadAlumnoLabel = tk.Label(self.findStudent, text = "Ciudad:");self.ciudadAlumnoLabel.grid(column = 0, row = 15, sticky = E)
+        self.entreCallesAlumnoLabel = tk.Label(self.findStudent, text = "Entre calles:"); self.entreCallesAlumnoLabel.grid(column = 0, row = 16, sticky = E)
+        self.telefonoAlumnoLabel = tk.Label(self.findStudent, text = "Telefono:"); self.telefonoAlumnoLabel.grid(column = 0, row = 17, sticky = E)
+        self.telefono2AlumnoLabel = tk.Label(self.findStudent, text = "Otro telefono:"); self.telefono2AlumnoLabel.grid(column = 0, row = 18, sticky = E)
+        self.enfermedadesLabel = tk.Label(self.findStudent, text = "Enfermedades:"); self.enfermedadesLabel.grid(column = 0, row = 19, sticky = E)
+        self.tipoSangreLabel = tk.Label(self.findStudent, text = "Tipo de sangre:"); self.tipoSangreLabel.grid(column = 0 , row = 20, sticky = E)
+        self.enTratamientoLabel = tk.Label(self.findStudent, text = "En tratamiento:"); self.enTratamientoLabel.grid(column = 0, row = 21, sticky = E)
+        self.servicioMedicoLabel = tk.Label(self.findStudent, text = "Servicio medico:"); self.servicioMedicoLabel.grid(column = 0, row = 22, sticky = E)
+        self.fechaInscripcionLabel = tk.Label(self.findStudent, text = "Fecha de inscripcion:"); self.fechaInscripcionLabel.grid(column = 0, row = 23, sticky = E)
 
         # PoT
         self.nombrePotLabel = tk.Label(self.findStudent, text = "Nombre del padre o tutor", font='Helvetica 10 bold'); self.nombrePotLabel.grid(column =2, row = 4, sticky = E)
@@ -467,18 +472,21 @@ class Rousseau:
         self.gradoACursarResultLabel= tk.Label(self.findStudent, text = "-"); self.gradoACursarResultLabel.grid(column = 1, row = 7, sticky = W);
         self.cicloEscolarResultLabel= tk.Label(self.findStudent, text = "-"); self.cicloEscolarResultLabel.grid(column = 1, row = 8, sticky = W);
         self.gradoEnCursoResultLabel= tk.Label(self.findStudent, text = "-"); self.gradoEnCursoResultLabel.grid(column = 1, row = 9, sticky = W);
-        self.conQuienViveResultLabel= tk.Label(self.findStudent, text = "-"); self.conQuienViveResultLabel.grid(column = 1, row = 10, sticky = W);
-        self.calleAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.calleAlumnoResultLabel.grid(column = 1, row = 11, sticky = W);
-        self.coloniaAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.coloniaAlumnoResultLabel.grid(column = 1, row = 12, sticky = W);
-        self.cpAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.cpAlumnoResultLabel.grid(column = 1, row = 13, sticky = W);
-        self.ciudadAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.ciudadAlumnoResultLabel.grid(column = 1, row = 14, sticky = W);
-        self.entreCallesAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.entreCallesAlumnoResultLabel.grid(column = 1, row = 15, sticky = W);
-        self.telefonoAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.telefonoAlumnoResultLabel.grid(column = 1, row = 16, sticky = W);
-        self.telefono2AlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.telefono2AlumnoResultLabel.grid(column = 1, row = 17, sticky = W);
-        self.enfermedadesResultLabel= tk.Label(self.findStudent, text = "-"); self.enfermedadesResultLabel.grid(column = 1, row = 18, sticky = W);
-        self.tipoSangreResultLabel= tk.Label(self.findStudent, text = "-"); self.tipoSangreResultLabel.grid(column = 1, row = 19, sticky = W);
-        self.enTratamientoResultLabel= tk.Label(self.findStudent, text = "-"); self.enTratamientoResultLabel.grid(column = 1, row = 20, sticky = W);
-        self.servicioMedicoResultLabel= tk.Label(self.findStudent, text = "-"); self.servicioMedicoResultLabel.grid(column = 1, row = 21, sticky = W);
+        self.cicloEnCursoResultLabel = tk.Label(self.findStudent, text = "-"); self.cicloEnCursoResultLabel.grid(column = 1, row = 10, sticky = W);
+
+        self.conQuienViveResultLabel= tk.Label(self.findStudent, text = "-"); self.conQuienViveResultLabel.grid(column = 1, row = 11, sticky = W);
+        self.calleAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.calleAlumnoResultLabel.grid(column = 1, row = 12, sticky = W);
+        self.coloniaAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.coloniaAlumnoResultLabel.grid(column = 1, row = 13, sticky = W);
+        self.cpAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.cpAlumnoResultLabel.grid(column = 1, row = 14, sticky = W);
+        self.ciudadAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.ciudadAlumnoResultLabel.grid(column = 1, row = 15, sticky = W);
+        self.entreCallesAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.entreCallesAlumnoResultLabel.grid(column = 1, row = 16, sticky = W);
+        self.telefonoAlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.telefonoAlumnoResultLabel.grid(column = 1, row = 17, sticky = W);
+        self.telefono2AlumnoResultLabel= tk.Label(self.findStudent, text = "-"); self.telefono2AlumnoResultLabel.grid(column = 1, row = 18, sticky = W);
+        self.enfermedadesResultLabel= tk.Label(self.findStudent, text = "-"); self.enfermedadesResultLabel.grid(column = 1, row = 19, sticky = W);
+        self.tipoSangreResultLabel= tk.Label(self.findStudent, text = "-"); self.tipoSangreResultLabel.grid(column = 1, row = 20, sticky = W);
+        self.enTratamientoResultLabel= tk.Label(self.findStudent, text = "-"); self.enTratamientoResultLabel.grid(column = 1, row = 21, sticky = W);
+        self.servicioMedicoResultLabel= tk.Label(self.findStudent, text = "-"); self.servicioMedicoResultLabel.grid(column = 1, row = 22, sticky = W);
+        self.fechaInscripcionResultLabel = tk.Label(self.findStudent, text = "-"); self.fechaInscripcionResultLabel.grid(column = 1, row = 23, sticky = W);
 
         # PoT
         self.nombrePotResultLabel = tk.Label(self.findStudent, text = "-"); self.nombrePotResultLabel.grid(column = 3, row = 4, sticky = W);
@@ -517,9 +525,13 @@ class Rousseau:
         listbox_update(self.names_list)
 
         #Button
-        self.buscarAlumnoButton = tk.Button(self.findStudent, text = "MOSTRAR INFORMACION", command= lambda: self.getDataFromSpecificStudent(xlObj2, nameSelected, nameSelectedFlag)); self.buscarAlumnoButton.grid(row = 3, column = 0, sticky = E)
+        self.buscarAlumnoButton = tk.Button(self.findStudent, text = "MOSTRAR INFORMACION", command= lambda: self.getDataFromSpecificStudent(xlObj2, nameSelected, nameSelectedFlag, False)); self.buscarAlumnoButton.grid(row = 3, column = 0, sticky = E)
         self.borrarAlumnoButton = tk.Button(self.findStudent, text = "BORRAR ALUMNO", command = lambda: self.deleteSpecificStudent(xlObj2, nameSelected, nameSelectedFlag)); self.borrarAlumnoButton.grid(row = 22, column = 6)
+        self.editarAlumnoButton = tk.Button(self.findStudent, text = "EDITAR ALUMNO"); self.editarAlumnoButton.grid(row = 22, column = 7);
+        self.bajaAlumnoButton = tk.Button(self.findStudent, text = "BAJA DE ALUMNO"); self.bajaAlumnoButton.grid(row = 22, column = 8);
 
+    def updateStudentUI(self):
+        x=1
 
 
 
@@ -713,13 +725,14 @@ class Rousseau:
         elif typeOfMessage == "Error":
             messagebox.showerror("Error", message)
 
-    def getDataFromSpecificStudent(self, xlObject, nameSelected, nameSelectedFlag):
+    def getDataFromSpecificStudent(self, xlObject, nameSelected, nameSelectedFlag, updateLabels):
         self.nombreAlumnoResultLabel.config(text = "-")
         self.fechaNacimientoAlumnoResultLabel.config(text = "-")
         self.curpAlumnoResultLabel.config(text = "-")
         self.gradoACursarResultLabel.config(text = "-")
         self.cicloEscolarResultLabel.config(text = "-")
         self.gradoEnCursoResultLabel.config(text = "-")
+        self.cicloEnCursoResultLabel.config(text = "-")
         self.conQuienViveResultLabel.config(text = "-")
         self.calleAlumnoResultLabel.config(text = "-")
         self.coloniaAlumnoResultLabel.config(text = "-")
@@ -732,6 +745,7 @@ class Rousseau:
         self.tipoSangreResultLabel.config(text = "-")
         self.enTratamientoResultLabel.config(text = "-")
         self.servicioMedicoResultLabel.config(text = "-")
+        self.fechaInscripcionResultLabel.config(text = "-")
 
         self.nombrePotResultLabel.config(text = "-")
         self.curpPotResultLabel.config(text = "-")
@@ -759,7 +773,7 @@ class Rousseau:
 
         if nameSelectedFlag:
             c, r = xlObject.getRowFromSpecificStudent(nameSelected)
-            print(str(c) + " " + str(r))
+            #print(str(c) + " " + str(r))
             self.dataDict = xlObject.getToShowAllDataFromSpecificStudent(c, r)
             print(self.dataDict)
 
@@ -769,7 +783,8 @@ class Rousseau:
             self.curpAlumnoResultLabel.config(text = self.dataDict["curp"])
             self.gradoACursarResultLabel.config(text = self.dataDict["gradoACursar"])
             self.cicloEscolarResultLabel.config(text = self.dataDict["cicloEscolar"])
-            self.gradoEnCursoResultLabel.config(text = "No Disponible")
+            self.gradoEnCursoResultLabel.config(text = self.dataDict["gradoEnCurso"])
+            self.cicloEnCursoResultLabel.config(text = self.dataDict["cicloEscolarEnCurso"])
             self.conQuienViveResultLabel.config(text = self.dataDict["conQuienVive"])
             self.calleAlumnoResultLabel.config(text = self.dataDict["calle"])
             self.coloniaAlumnoResultLabel.config(text = self.dataDict["colonia"])
@@ -782,6 +797,7 @@ class Rousseau:
             self.tipoSangreResultLabel.config(text = self.dataDict["tipoSangre"])
             self.enTratamientoResultLabel.config(text = self.dataDict["actualmenteTratamiento"])
             self.servicioMedicoResultLabel.config(text = self.dataDict["servicioMedico1"])
+            self.fechaInscripcionResultLabel.config(text = self.dataDict["fechaInscripcion"])
 
             self.nombrePotResultLabel.config(text = self.dataDict["nombrePoT"])
             self.curpPotResultLabel.config(text = self.dataDict["curpPoT"])
@@ -806,11 +822,32 @@ class Rousseau:
             self.telefonoMotResultLabel.config(text = self.dataDict["telefonoMoT"])
             self.celularMotResultLabel.config(text = self.dataDict["celularMoT"])
             self.emailMotResultLabel.config(text = self.dataDict["emailMoT"])
+        elif nameSelectedFlag == False and updateLabels == True:
+            return
         else:
             self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA BUSCAR")
 
     def deleteSpecificStudent(self, xlDeleteObject, nameSelected, nameSelectedFlag):
-        self.showTextBox("Info", "EN DESARROLLO, EL ALUMNO {} NO FUE BORRADO".format(nameSelected))
+            if nameSelectedFlag:
+                c, r = xlDeleteObject.getRowFromSpecificStudent(nameSelected)
+                xlDeleteObject.deleteSpecificStudent(r)
+                xlDeleteObject.save()
+                newList = xlDeleteObject.getNamesList()
+
+                #Update List to avoid showing the deleted student
+                self.nombresListbox.delete(0, 'end')
+                data = sorted(newList, key=str.lower)
+                for item in data:
+                    self.nombresListbox.insert('end', item)
+
+                #Delete student from labels
+                nameSelectedFlag = False
+                self.getDataFromSpecificStudent(xlDeleteObject, nameSelected, nameSelectedFlag, True)
+                del xlDeleteObject
+                self.showTextBox("Info", "EL ALUMNO {} FUE BORRADO CON EXITO".format(nameSelected))
+
+            else:
+                self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA BORRAR")
 
 
 class rousseauXL:
@@ -842,26 +879,29 @@ class rousseauXL:
                     self.emptyCol = column
 
     def addNewStudent(self, newStudentDict, newStudentPoTDict, newStudentMoTDict, newStudentReference):
+        #done
         print(self.emptyCol, self.emptyRow)
         self.ws.cell(row=self.emptyRow, column=1).value = newStudentDict["nombre"]
         self.ws.cell(row=self.emptyRow, column=2).value = newStudentDict["fechaNacimiento"]
         self.ws.cell(row=self.emptyRow, column=3).value = newStudentDict["curp"]
         self.ws.cell(row=self.emptyRow, column=4).value = newStudentDict["gradoACursar"]
         self.ws.cell(row=self.emptyRow, column=5).value = newStudentDict["cicloEscolar"]
-        self.ws.cell(row=self.emptyRow, column=6).value = newStudentDict["escuelaProcedencia"]
-        self.ws.cell(row=self.emptyRow, column=7).value = newStudentDict["clave"]
-        self.ws.cell(row=self.emptyRow, column=8).value = newStudentDict["conQuienVive"]
-        self.ws.cell(row=self.emptyRow, column=9).value = newStudentDict["calle"]
-        self.ws.cell(row=self.emptyRow, column=10).value = newStudentDict["colonia"]
-        self.ws.cell(row=self.emptyRow, column=11).value = newStudentDict["entreCalles"]
-        self.ws.cell(row=self.emptyRow, column=12).value = newStudentDict["codigoPostal"]
-        self.ws.cell(row=self.emptyRow, column=13).value = newStudentDict["ciudad"]
-        self.ws.cell(row=self.emptyRow, column=14).value = newStudentDict["telefono"]
-        self.ws.cell(row=self.emptyRow, column=15).value = newStudentDict["telefono2"]
-        self.ws.cell(row=self.emptyRow, column=16).value = newStudentDict["religion"]
-        self.ws.cell(row=self.emptyRow, column=17).value = newStudentDict["enfermedadesOAccidentes"]
-        self.ws.cell(row=self.emptyRow, column=18).value = newStudentDict["tipoSangre"]
-        self.ws.cell(row=self.emptyRow, column=19).value = newStudentDict["actualmenteTratamiento"]
+        self.ws.cell(row=self.emptyRow, column =6).value = newStudentDict["gradoACursar"]
+        self.ws.cell(row=self.emptyRow, column=7).value = newStudentDict["cicloEscolar"]
+        self.ws.cell(row=self.emptyRow, column=8).value = newStudentDict["escuelaProcedencia"]
+        self.ws.cell(row=self.emptyRow, column=9).value = newStudentDict["clave"]
+        self.ws.cell(row=self.emptyRow, column=10).value = newStudentDict["conQuienVive"]
+        self.ws.cell(row=self.emptyRow, column=11).value = newStudentDict["calle"]
+        self.ws.cell(row=self.emptyRow, column=12).value = newStudentDict["colonia"]
+        self.ws.cell(row=self.emptyRow, column=13).value = newStudentDict["entreCalles"]
+        self.ws.cell(row=self.emptyRow, column=14).value = newStudentDict["codigoPostal"]
+        self.ws.cell(row=self.emptyRow, column=15).value = newStudentDict["ciudad"]
+        self.ws.cell(row=self.emptyRow, column=16).value = newStudentDict["telefono"]
+        self.ws.cell(row=self.emptyRow, column=17).value = newStudentDict["telefono2"]
+        self.ws.cell(row=self.emptyRow, column=18).value = newStudentDict["religion"]
+        self.ws.cell(row=self.emptyRow, column=19).value = newStudentDict["enfermedadesOAccidentes"]
+        self.ws.cell(row=self.emptyRow, column=20).value = newStudentDict["tipoSangre"]
+        self.ws.cell(row=self.emptyRow, column=21).value = newStudentDict["actualmenteTratamiento"]
 
         if newStudentDict["servicioMedico1"] == True:
             imss = "IMSS"
@@ -878,40 +918,40 @@ class rousseauXL:
         else:
             pemex = ""
         servicioMedicoStr = imss + " " + issste + " " + pemex + " " + str(newStudentDict["servicioMedico4"])
-        self.ws.cell(row=self.emptyRow, column=20).value = servicioMedicoStr
+        self.ws.cell(row=self.emptyRow, column=22).value = servicioMedicoStr
 
         # PoT
-        self.ws.cell(row=self.emptyRow, column=21).value = newStudentPoTDict["nombrePoT"]
-        self.ws.cell(row=self.emptyRow, column=22).value = newStudentPoTDict["fechaNacimientoPoT"]
-        self.ws.cell(row=self.emptyRow, column=23).value = newStudentPoTDict["curpPoT"]
-        self.ws.cell(row=self.emptyRow, column=24).value = newStudentPoTDict["rfcPoT"]
-        self.ws.cell(row=self.emptyRow, column=25).value = newStudentPoTDict["lugarNacimientoPoT"]
-        self.ws.cell(row=self.emptyRow, column=26).value = newStudentPoTDict["estadoCivilPoT"]
-        self.ws.cell(row=self.emptyRow, column=27).value = newStudentPoTDict["nacionalidadPoT"]
-        self.ws.cell(row=self.emptyRow, column=28).value = newStudentPoTDict["profesionPoT"]
-        self.ws.cell(row=self.emptyRow, column=29).value = newStudentPoTDict["telefonoPoT"]
-        self.ws.cell(row=self.emptyRow, column=30).value = newStudentPoTDict["celularPoT"]
-        self.ws.cell(row=self.emptyRow, column=31).value = newStudentPoTDict["lugarTrabajoPoT"]
-        self.ws.cell(row=self.emptyRow, column=32).value = newStudentPoTDict["ocupacionPoT"]
-        self.ws.cell(row=self.emptyRow, column=33).value = newStudentPoTDict["emailPoT"]
+        self.ws.cell(row=self.emptyRow, column=23).value = newStudentPoTDict["nombrePoT"]
+        self.ws.cell(row=self.emptyRow, column=24).value = newStudentPoTDict["fechaNacimientoPoT"]
+        self.ws.cell(row=self.emptyRow, column=25).value = newStudentPoTDict["curpPoT"]
+        self.ws.cell(row=self.emptyRow, column=26).value = newStudentPoTDict["rfcPoT"]
+        self.ws.cell(row=self.emptyRow, column=27).value = newStudentPoTDict["lugarNacimientoPoT"]
+        self.ws.cell(row=self.emptyRow, column=28).value = newStudentPoTDict["estadoCivilPoT"]
+        self.ws.cell(row=self.emptyRow, column=29).value = newStudentPoTDict["nacionalidadPoT"]
+        self.ws.cell(row=self.emptyRow, column=30).value = newStudentPoTDict["profesionPoT"]
+        self.ws.cell(row=self.emptyRow, column=31).value = newStudentPoTDict["telefonoPoT"]
+        self.ws.cell(row=self.emptyRow, column=32).value = newStudentPoTDict["celularPoT"]
+        self.ws.cell(row=self.emptyRow, column=33).value = newStudentPoTDict["lugarTrabajoPoT"]
+        self.ws.cell(row=self.emptyRow, column=34).value = newStudentPoTDict["ocupacionPoT"]
+        self.ws.cell(row=self.emptyRow, column=35).value = newStudentPoTDict["emailPoT"]
 
         # MoT
-        self.ws.cell(row=self.emptyRow, column=34).value = newStudentMoTDict["nombreMoT"]
-        self.ws.cell(row=self.emptyRow, column=35).value = newStudentMoTDict["fechaNacimientoMoT"]
-        self.ws.cell(row=self.emptyRow, column=36).value = newStudentMoTDict["curpMoT"]
-        self.ws.cell(row=self.emptyRow, column=37).value = newStudentMoTDict["rfcMoT"]
-        self.ws.cell(row=self.emptyRow, column=38).value = newStudentMoTDict["lugarNacimientoMoT"]
-        self.ws.cell(row=self.emptyRow, column=39).value = newStudentMoTDict["estadoCivilMoT"]
-        self.ws.cell(row=self.emptyRow, column=40).value = newStudentMoTDict["nacionalidadMoT"]
-        self.ws.cell(row=self.emptyRow, column=41).value = newStudentMoTDict["profesionMoT"]
-        self.ws.cell(row=self.emptyRow, column=42).value = newStudentMoTDict["telefonoMoT"]
-        self.ws.cell(row=self.emptyRow, column=43).value = newStudentMoTDict["celularMoT"]
-        self.ws.cell(row=self.emptyRow, column=44).value = newStudentMoTDict["lugarTrabajoMoT"]
-        self.ws.cell(row=self.emptyRow, column=45).value = newStudentMoTDict["ocupacionMoT"]
-        self.ws.cell(row=self.emptyRow, column=46).value = newStudentMoTDict["emailMoT"]
+        self.ws.cell(row=self.emptyRow, column=36).value = newStudentMoTDict["nombreMoT"]
+        self.ws.cell(row=self.emptyRow, column=37).value = newStudentMoTDict["fechaNacimientoMoT"]
+        self.ws.cell(row=self.emptyRow, column=38).value = newStudentMoTDict["curpMoT"]
+        self.ws.cell(row=self.emptyRow, column=39).value = newStudentMoTDict["rfcMoT"]
+        self.ws.cell(row=self.emptyRow, column=40).value = newStudentMoTDict["lugarNacimientoMoT"]
+        self.ws.cell(row=self.emptyRow, column=41).value = newStudentMoTDict["estadoCivilMoT"]
+        self.ws.cell(row=self.emptyRow, column=42).value = newStudentMoTDict["nacionalidadMoT"]
+        self.ws.cell(row=self.emptyRow, column=43).value = newStudentMoTDict["profesionMoT"]
+        self.ws.cell(row=self.emptyRow, column=44).value = newStudentMoTDict["telefonoMoT"]
+        self.ws.cell(row=self.emptyRow, column=45).value = newStudentMoTDict["celularMoT"]
+        self.ws.cell(row=self.emptyRow, column=46).value = newStudentMoTDict["lugarTrabajoMoT"]
+        self.ws.cell(row=self.emptyRow, column=47).value = newStudentMoTDict["ocupacionMoT"]
+        self.ws.cell(row=self.emptyRow, column=48).value = newStudentMoTDict["emailMoT"]
 
-        self.ws.cell(row=self.emptyRow, column=47).value = newStudentReference["referencia"]
-        self.ws.cell(row=self.emptyRow, column=48).value = datetime.datetime.now().strftime("%Y-%m-%d")
+        self.ws.cell(row=self.emptyRow, column=49).value = newStudentReference["referencia"]
+        self.ws.cell(row=self.emptyRow, column=50).value = datetime.datetime.now().strftime("%Y-%m-%d")
 
         # for column in range(1, self.ws.max_column+1):
         #     self.ws.cell(row = self.emptyRow, column = column).value = "si"
@@ -931,63 +971,67 @@ class rousseauXL:
         return names_list
 
     def getRowFromSpecificStudent(self, specificName):
-        print("Buscando a : " + str(specificName))
+        #print("Buscando a : " + str(specificName))
         for row in range(2,self.ws.max_row + 1):
             for column in "A":
                 cell_name = "{}{}".format(column, row)
                 print(cell_name)
                 if specificName == str(self.ws[cell_name].value):
                     #print("::::::::" + "{},{}".format(column, row) + str(self.ws[cell_name].value))
-                    #falta hacerle un brake aqui.........................................................
                     return column, row
 
     def getToShowAllDataFromSpecificStudent(self, col, row):
-        #Quiza se pueda hacer en un for...
+        #done
         dict = {
             "nombre": self.ws.cell(row=row, column=1).value,
             "fechaNacimiento": self.ws.cell(row=row, column=2).value,
             "curp": self.ws.cell(row=row, column=3).value,
             "gradoACursar": self.ws.cell(row=row, column=4).value,
             "cicloEscolar": self.ws.cell(row=row, column=5).value,
-            "conQuienVive": self.ws.cell(row=row, column=8).value,
-            "calle": self.ws.cell(row=row, column=9).value,
-            "colonia": self.ws.cell(row=row, column=10).value,
-            "entreCalles": self.ws.cell(row=row, column=11).value,
-            "codigoPostal": self.ws.cell(row=row, column=12).value,
-            "ciudad": self.ws.cell(row=row, column=13).value,
-            "telefono": self.ws.cell(row=row, column=14).value,
-            "telefono2": self.ws.cell(row=row, column=15).value,
-            "enfermedadesOAccidentes": self.ws.cell(row=row, column=17).value,
-            "tipoSangre": self.ws.cell(row=row, column=18).value,
-            "actualmenteTratamiento": self.ws.cell(row=row, column=19).value,
-            "servicioMedico1": self.ws.cell(row=row, column=20).value,
+            "gradoEnCurso": self.ws.cell(row=row, column = 6).value,
+            "cicloEscolarEnCurso": self.ws.cell(row=row, column = 7).value,
+            "conQuienVive": self.ws.cell(row=row, column=10).value,
+            "calle": self.ws.cell(row=row, column=11).value,
+            "colonia": self.ws.cell(row=row, column=12).value,
+            "entreCalles": self.ws.cell(row=row, column=13).value,
+            "codigoPostal": self.ws.cell(row=row, column=14).value,
+            "ciudad": self.ws.cell(row=row, column=15).value,
+            "telefono": self.ws.cell(row=row, column=16).value,
+            "telefono2": self.ws.cell(row=row, column=17).value,
+            "enfermedadesOAccidentes": self.ws.cell(row=row, column=19).value,
+            "tipoSangre": self.ws.cell(row=row, column=20).value,
+            "actualmenteTratamiento": self.ws.cell(row=row, column=21).value,
+            "servicioMedico1": self.ws.cell(row=row, column=22).value,
+            "fechaInscripcion": self.ws.cell(row = row , column = 50).value,
 
-            "nombrePoT": self.ws.cell(row=row, column=21).value,
-            "curpPoT": self.ws.cell(row=row, column=23).value,
-            "rfcPoT": self.ws.cell(row=row, column=24).value,
-            "estadoCivilPoT": self.ws.cell(row=row, column=26).value,
-            "nacionalidadPoT": self.ws.cell(row=row, column=27).value,
-            "profesionPoT": self.ws.cell(row=row, column=28).value,
-            "telefonoPoT": self.ws.cell(row=row, column=29).value,
-            "celularPoT": self.ws.cell(row=row, column=30).value,
-            "lugarTrabajoPoT": self.ws.cell(row=row, column=31).value,
-            "ocupacionPoT": self.ws.cell(row=row, column=32).value,
-            "emailPoT": self.ws.cell(row=row, column=33).value,
+            "nombrePoT": self.ws.cell(row=row, column=23).value,
+            "curpPoT": self.ws.cell(row=row, column=25).value,
+            "rfcPoT": self.ws.cell(row=row, column=26).value,
+            "estadoCivilPoT": self.ws.cell(row=row, column=28).value,
+            "nacionalidadPoT": self.ws.cell(row=row, column=29).value,
+            "profesionPoT": self.ws.cell(row=row, column=30).value,
+            "telefonoPoT": self.ws.cell(row=row, column=31).value,
+            "celularPoT": self.ws.cell(row=row, column=32).value,
+            "lugarTrabajoPoT": self.ws.cell(row=row, column=33).value,
+            "ocupacionPoT": self.ws.cell(row=row, column=34).value,
+            "emailPoT": self.ws.cell(row=row, column=35).value,
 
-            "nombreMoT": self.ws.cell(row=row, column=34).value,
-            "curpMoT": self.ws.cell(row=row, column=36).value,
-            "rfcMoT": self.ws.cell(row=row, column=37).value,
-            "estadoCivilMoT": self.ws.cell(row=row, column=39).value,
-            "nacionalidadMoT": self.ws.cell(row=row, column=40).value,
-            "profesionMoT": self.ws.cell(row=row, column=41).value,
-            "telefonoMoT": self.ws.cell(row=row, column=42).value,
-            "celularMoT": self.ws.cell(row=row, column=43).value,
-            "lugarTrabajoMoT": self.ws.cell(row=row, column=44).value,
-            "ocupacionMoT": self.ws.cell(row=row, column=45).value,
-            "emailMoT": self.ws.cell(row=row, column=46).value
+            "nombreMoT": self.ws.cell(row=row, column=36).value,
+            "curpMoT": self.ws.cell(row=row, column=38).value,
+            "rfcMoT": self.ws.cell(row=row, column=39).value,
+            "estadoCivilMoT": self.ws.cell(row=row, column=41).value,
+            "nacionalidadMoT": self.ws.cell(row=row, column=42).value,
+            "profesionMoT": self.ws.cell(row=row, column=43).value,
+            "telefonoMoT": self.ws.cell(row=row, column=44).value,
+            "celularMoT": self.ws.cell(row=row, column=45).value,
+            "lugarTrabajoMoT": self.ws.cell(row=row, column=46).value,
+            "ocupacionMoT": self.ws.cell(row=row, column=47).value,
+            "emailMoT": self.ws.cell(row=row, column=48).value
         }
         return dict
 
+    def deleteSpecificStudent(self, row):
+        self.ws.delete_rows(row)
 
 def main():
     root = tk.Tk()
