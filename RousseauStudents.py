@@ -6,7 +6,9 @@ import openpyxl as xl
 import datetime
 from PIL import Image, ImageTk
 import webbrowser
-
+from openpyxl.styles import Font
+import os
+import shutil
 
 class Rousseau:
     global alumnosxlsxFlag
@@ -15,6 +17,7 @@ class Rousseau:
     def __init__(self, master):
         self.initUI(master)
         self.findStudent = None
+        self.updateStudent = None
 
     def initUI(self, master):
 
@@ -359,9 +362,6 @@ class Rousseau:
         img.image = render
         img.place(x=0, y=515)
 
-    def destroyFindStudent(self):
-        self.findStudent.destroy()
-        self.findStudent = None
 
     def findStudentUI(self):
         nameSelected = None
@@ -438,6 +438,7 @@ class Rousseau:
         self.enTratamientoLabel = tk.Label(self.findStudent, text = "En tratamiento:"); self.enTratamientoLabel.grid(column = 0, row = 21, sticky = E)
         self.servicioMedicoLabel = tk.Label(self.findStudent, text = "Servicio medico:"); self.servicioMedicoLabel.grid(column = 0, row = 22, sticky = E)
         self.fechaInscripcionLabel = tk.Label(self.findStudent, text = "Fecha de inscripcion:"); self.fechaInscripcionLabel.grid(column = 0, row = 23, sticky = E)
+        self.statusLabel = tk.Label(self.findStudent, text = "Estado:"); self.statusLabel.grid(column = 0, row = 24, sticky = E)
 
         # PoT
         self.nombrePotLabel = tk.Label(self.findStudent, text = "Nombre del padre o tutor", font='Helvetica 10 bold'); self.nombrePotLabel.grid(column =2, row = 4, sticky = E)
@@ -487,6 +488,7 @@ class Rousseau:
         self.enTratamientoResultLabel= tk.Label(self.findStudent, text = "-"); self.enTratamientoResultLabel.grid(column = 1, row = 21, sticky = W);
         self.servicioMedicoResultLabel= tk.Label(self.findStudent, text = "-"); self.servicioMedicoResultLabel.grid(column = 1, row = 22, sticky = W);
         self.fechaInscripcionResultLabel = tk.Label(self.findStudent, text = "-"); self.fechaInscripcionResultLabel.grid(column = 1, row = 23, sticky = W);
+        self.statusResultLabel = tk.Label(self.findStudent, text = "-"); self.statusResultLabel.grid(column = 1, row = 24, sticky = W);
 
         # PoT
         self.nombrePotResultLabel = tk.Label(self.findStudent, text = "-"); self.nombrePotResultLabel.grid(column = 3, row = 4, sticky = W);
@@ -528,14 +530,35 @@ class Rousseau:
         self.buscarAlumnoButton = tk.Button(self.findStudent, text = "MOSTRAR INFORMACION", command= lambda: self.getDataFromSpecificStudent(xlObj2, nameSelected, nameSelectedFlag, False)); self.buscarAlumnoButton.grid(row = 3, column = 0, sticky = E)
         self.borrarAlumnoButton = tk.Button(self.findStudent, text = "BORRAR ALUMNO", command = lambda: self.deleteSpecificStudent(xlObj2, nameSelected, nameSelectedFlag)); self.borrarAlumnoButton.grid(row = 22, column = 6)
         self.editarAlumnoButton = tk.Button(self.findStudent, text = "EDITAR ALUMNO"); self.editarAlumnoButton.grid(row = 22, column = 7);
-        self.bajaAlumnoButton = tk.Button(self.findStudent, text = "BAJA DE ALUMNO"); self.bajaAlumnoButton.grid(row = 22, column = 8);
+        self.bajaAlumnoButton = tk.Button(self.findStudent, text = "BAJA DE ALUMNO", command = lambda: self.dropOutStudent(xlObj2, nameSelected, nameSelectedFlag)); self.bajaAlumnoButton.grid(row = 22, column = 8);
 
     def updateStudentUI(self):
-        x=1
+        if not self.updateStudent:
+            self.updateStudent = Toplevel(self.mainMenu)
+            self.updateStudent.iconbitmap("imgs/Papalote.ico")
+            self.updateStudent.title("Actualizar Alumnos De Año")
+            self.updateStudent.geometry("560x100")
+
+        self.updateStudent.protocol("WM_DELETE_WINDOW", self.destroyUpdateStudent)
+
+        xlObj3 = rousseauXL()
+        #Labels
+        self.warningLabel = tk.Label(self.updateStudent, text="AL DAR CLICK AL BOTON 'Actualizar Alumnos.xlsx', USTED ESTA DE ACUERDO EN HABER DADO DE BAJA \nA TODOS LOS ALUMNOS (EN LA SECCION BUSCAR ALUMNO O MANUALMENTE) QUE NO \nFUERON INSCRITOS A ESTE NUEVO CICLO ESCOLAR. YA QUE DE NO SER ASI LA BASE DE DATOS \nSE PODRIA VER AFECTADA Y SI NO HAY UN RESPALDO DE ELLA, LOS DATOS SERAN IRRECUPERABLES.");
+        self.warningLabel.grid(column=0, row=0, sticky=N+S+E+W, columnspan = 2);
+
+        #Buttons
+        self.backupButton = tk.Button(self.updateStudent, text = "Respaldar Alumnos.xlsx", command= self.createBackUp).grid(column = 0, row = 1)
+        self.actualizarAlumnosButton = tk.Button(self.updateStudent, text = "Actualizar Alumnos.xlsx" ,command= lambda: self.updateStudents(xlObj3)).grid(column = 1, row = 1)
 
 
+    #Destroy window functions
+    def destroyFindStudent(self):
+        self.findStudent.destroy()
+        self.findStudent = None
 
-
+    def destroyUpdateStudent(self):
+        self.updateStudent.destroy()
+        self.updateStudent = None
     # Logic Functions
     def getDataFromNewStudent(self):
         self.progressBar["value"] = 10
@@ -771,6 +794,8 @@ class Rousseau:
         self.celularMotResultLabel.config(text = "-")
         self.emailMotResultLabel.config(text = "-")
 
+        self.statusResultLabel.config(text="-")
+
         if nameSelectedFlag:
             c, r = xlObject.getRowFromSpecificStudent(nameSelected)
             #print(str(c) + " " + str(r))
@@ -822,6 +847,10 @@ class Rousseau:
             self.telefonoMotResultLabel.config(text = self.dataDict["telefonoMoT"])
             self.celularMotResultLabel.config(text = self.dataDict["celularMoT"])
             self.emailMotResultLabel.config(text = self.dataDict["emailMoT"])
+
+            self.statusResultLabel.config(text = self.dataDict["status"])
+
+
         elif nameSelectedFlag == False and updateLabels == True:
             return
         else:
@@ -829,7 +858,11 @@ class Rousseau:
 
     def deleteSpecificStudent(self, xlDeleteObject, nameSelected, nameSelectedFlag):
             if nameSelectedFlag:
-                c, r = xlDeleteObject.getRowFromSpecificStudent(nameSelected)
+                try:
+                    c, r = xlDeleteObject.getRowFromSpecificStudent(nameSelected)
+                except:
+                    self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA BORRAR")
+
                 xlDeleteObject.deleteSpecificStudent(r)
                 xlDeleteObject.save()
                 newList = xlDeleteObject.getNamesList()
@@ -848,6 +881,53 @@ class Rousseau:
 
             else:
                 self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA BORRAR")
+
+    def dropOutStudent(self, xlDropOutObject, nameSelected, nameSelectedFlag):
+        if nameSelectedFlag:
+            try:
+                c, r = xlDropOutObject.getRowFromSpecificStudent(nameSelected)
+            except:
+                self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA DAR DE BAJA")
+
+            xlDropOutObject.dropOutStudent(r)
+            xlDropOutObject.save()
+            del xlDropOutObject
+            self.showTextBox("Info", "EL ALUMNO {} FUE DADO DE BAJA CON EXITO".format(nameSelected))
+        else:
+            self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA DAR DE BAJA")
+
+    def updateStudents(self, xlUpdateStudentsObject):
+
+        warningMsgBox = tk.messagebox.askyesno("Verifique", "ESTA SEGURO(A) DE PROCEDER CON ESTA OPERACION?.\nSI RESPONDE QUE SI, ESTO PODRIA DEMORAR UNOS MINUTOS \nAL FINALIZAR SERA NOTIFICADO, FAVOR DE NO CERRAR LA VENTANA.",icon = 'warning')
+        print(warningMsgBox)
+        if warningMsgBox == True:
+            print("yes")
+            xlUpdateStudentsObject.updateStudent()
+            xlUpdateStudentsObject.save()
+            self.showTextBox("Info", "LA BASE DE DATOS: 'Alumnos.xlsx' FUE ACTUALIZADA CON EXITO")
+        else:
+            pass
+        del xlUpdateStudentsObject
+
+    def createBackUp(self):
+        ruta = os.getcwd()
+        time = datetime.datetime.now().strftime("%Y-%m-%d")
+        src_dir = "Alumnos.xlsx"
+        dst_dir = "./Respaldo/Alumnos_"+str(time)+".xlsx"
+
+        if os.path.isdir('./Respaldo') == True:
+            shutil.copy(src_dir,dst_dir)
+            self.showTextBox("Info", "Respaldo creado en la carpeta 'Respaldo'.")
+        else:
+            access_rights = 0o777
+            try:
+                os.mkdir(ruta+"\Respaldo", access_rights)
+                shutil.copy(src_dir, dst_dir)
+                self.showTextBox("Info", "Respaldo creado en la carpeta 'Respaldo'.")
+            except OSError:
+                self.showTextBox("Info","NO SE PUDO CREAR RESPALDO.")
+
+
 
 
 class rousseauXL:
@@ -982,6 +1062,11 @@ class rousseauXL:
 
     def getToShowAllDataFromSpecificStudent(self, col, row):
         #done
+        def dropedOrActive():
+            if str(self.ws.cell(row=row, column=51).value) == "BAJA":
+                return "DADO DE BAJA"
+            else:
+                return "ACTIVO"
         dict = {
             "nombre": self.ws.cell(row=row, column=1).value,
             "fechaNacimiento": self.ws.cell(row=row, column=2).value,
@@ -1026,13 +1111,93 @@ class rousseauXL:
             "celularMoT": self.ws.cell(row=row, column=45).value,
             "lugarTrabajoMoT": self.ws.cell(row=row, column=46).value,
             "ocupacionMoT": self.ws.cell(row=row, column=47).value,
-            "emailMoT": self.ws.cell(row=row, column=48).value
+            "emailMoT": self.ws.cell(row=row, column=48).value,
+
+            "status": dropedOrActive()
         }
         return dict
 
     def deleteSpecificStudent(self, row):
         self.ws.delete_rows(row)
 
+    def dropOutStudent(self, row):
+        self.ws.cell(row=row, column=51).value = "BAJA"
+        self.ws.cell(row=row, column=52).value = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        red_font = Font(color='00FF0000', italic=True)
+
+        # Enumerate the cells in the second row
+        for cell in self.ws[row:row]:
+            cell.font = red_font
+
+    def updateStudent(self):
+        for row in range(2, self.ws.max_row + 1):
+            currentYear = self.ws.cell(row=row, column=6).value
+            currentYearValidation = currentYear
+            if str(self.ws.cell(row=row, column=51).value) != "BAJA" and currentYear != "Se graduo de secundaria":
+                currentCycle = self.ws.cell(row=row, column=7).value
+                if "Kinder" in currentYear:
+                    currentYear = currentYear.strip(" Kinder")
+                    currentYear = int(currentYear)
+                    if currentYear == 1:
+                        newYear = "2 Kinder"
+                    elif currentYear == 2:
+                        newYear = "3 Kinder"
+                    elif currentYear == 3:
+                        newYear = "1 Primaria"
+
+                elif "Primaria" in currentYear:
+                    currentYear = currentYear.strip(" Primaria")
+                    currentYear = int(currentYear)
+                    if currentYear == 1:
+                        newYear = "2 Primaria"
+                    if currentYear == 2:
+                        newYear = "3 Primaria"
+                    if currentYear == 3:
+                        newYear = "4 Primaria"
+                    if currentYear == 4:
+                        newYear = "5 Primaria"
+                    if currentYear == 5:
+                        newYear = "6 Primaria"
+                    if currentYear == 6:
+                        newYear = "1 Secundaria"
+
+                elif "Secundaria" in currentYear:
+                    currentYear = currentYear.strip(" Secundaria")
+                    currentYear = int(currentYear)
+                    if currentYear == 1:
+                        newYear = "2 Secundaria"
+                    elif currentYear == 2:
+                        newYear = "3 Secundaria"
+                    elif currentYear == 3:
+                        newYear = "Se graduo de secundaria"
+                elif "Se graduo de secundaria" in currentYear:
+                    newYear = "Se graduo de secundaria"
+
+                if currentYearValidation == "3 Secundaria":
+                    newCycle = currentCycle
+                if currentCycle is not "Se graduo en secundaria" and currentYearValidation != "3 Secundaria":
+                    print(currentYearValidation)
+                    first4DigitsCycle = int(currentCycle[:4])
+                    last4DigitsCycle = int(currentCycle[5:])
+                    first4DigitsCycle = first4DigitsCycle + 1
+                    last4DigitsCycle = last4DigitsCycle + 1
+                    newCycle = str(first4DigitsCycle) + "-" + str(last4DigitsCycle)
+
+                self.ws.cell(row=row, column=6).value = newYear
+                self.ws.cell(row=row, column=7).value = newCycle
+                del currentYear
+                del newYear
+                del currentCycle
+                try:
+                    del first4DigitsCycle
+                    del last4DigitsCycle
+                except:
+                    pass
+                del newCycle
+
+            else:
+                pass
 def main():
     root = tk.Tk()
     w = 250;
