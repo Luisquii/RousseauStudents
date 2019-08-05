@@ -12,13 +12,18 @@ import shutil
 
 class Rousseau:
     global alumnosxlsxFlag
+    global rowToEditedStudent
     global names_list
+
 
     def __init__(self, master):
         self.initUI(master)
         self.findStudent = None
         self.updateStudent = None
+        self.editStudent = None
 
+
+    #Windows
     def initUI(self, master):
 
         self.master = master
@@ -76,7 +81,6 @@ class Rousseau:
         img = Label(self.mainMenu, image=render)
         img.image = render
         img.place(x=200, y=5)
-
 
     def newStudentUI(self):
         self.newStudent = Toplevel(self.mainMenu)
@@ -362,7 +366,6 @@ class Rousseau:
         img.image = render
         img.place(x=0, y=515)
 
-
     def findStudentUI(self):
         nameSelected = None
         nameSelectedFlag = False
@@ -528,9 +531,69 @@ class Rousseau:
 
         #Button
         self.buscarAlumnoButton = tk.Button(self.findStudent, text = "MOSTRAR INFORMACION", command= lambda: self.getDataFromSpecificStudent(xlObj2, nameSelected, nameSelectedFlag, False)); self.buscarAlumnoButton.grid(row = 3, column = 0, sticky = E)
-        self.borrarAlumnoButton = tk.Button(self.findStudent, text = "BORRAR ALUMNO", command = lambda: self.deleteSpecificStudent(xlObj2, nameSelected, nameSelectedFlag)); self.borrarAlumnoButton.grid(row = 22, column = 6)
-        self.editarAlumnoButton = tk.Button(self.findStudent, text = "EDITAR ALUMNO"); self.editarAlumnoButton.grid(row = 22, column = 7);
-        self.bajaAlumnoButton = tk.Button(self.findStudent, text = "BAJA DE ALUMNO", command = lambda: self.dropOutStudent(xlObj2, nameSelected, nameSelectedFlag)); self.bajaAlumnoButton.grid(row = 22, column = 8);
+        self.borrarAlumnoButton = tk.Button(self.findStudent, text = "BORRAR ALUMNO", command = lambda: self.deleteSpecificStudent(xlObj2, nameSelected, nameSelectedFlag)); self.borrarAlumnoButton.grid(row = 22, column = 8)
+        self.editarAlumnoButton = tk.Button(self.findStudent, text = "EDITAR ALUMNO", command = lambda: self.editStudentUI(xlObj2, nameSelected, nameSelectedFlag)); self.editarAlumnoButton.grid(row = 22, column = 6);
+        self.bajaAlumnoButton = tk.Button(self.findStudent, text = "BAJA DE ALUMNO", command = lambda: self.dropOutStudent(xlObj2, nameSelected, nameSelectedFlag)); self.bajaAlumnoButton.grid(row = 22, column = 7);
+
+    def editStudentUI(self, xlEditObject, nameSelected, nameSelectedFlag):
+        self.editStudent = Toplevel(self.mainMenu)
+        self.editStudent.iconbitmap("imgs/Papalote.ico")
+        self.editStudent.title("Editar Alumno")
+        self.editStudent.geometry("800x200")
+
+        #Labels
+        self.nombreEditLabel = tk.Label(self.editStudent, text = "Nombre:"); self.nombreEditLabel.grid(column =0, row = 0);
+        self.fechaNacimientoEditLabel = tk.Label(self.editStudent, text = "Fecha de Nacimiento:"); self.fechaNacimientoEditLabel.grid(column = 0, row = 1)
+        self.curpEditLabel = tk.Label(self.editStudent, text = "CURP:"); self.curpEditLabel.grid(column = 0, row = 2)
+        self.telefonoEditLabel = tk.Label(self.editStudent, text = "Telefono"); self.telefonoEditLabel.grid(column = 0, row = 3)
+        self.otroTelefonoEditLabel = tk.Label(self.editStudent, text = "Otro Telefono:"); self.otroTelefonoEditLabel.grid(column = 0, row = 4)
+
+        #PoT
+        self.nombrePoTEditLabel = tk.Label(self.editStudent, text = "Nombre Padre o Tutor:"); self.nombrePoTEditLabel.grid(column = 2, row = 0)
+        self.curpPoTEditLabel = tk.Label(self.editStudent, text="CURP:");self.curpPoTEditLabel.grid(column=2, row=1)
+        self.rfcPoTEditLabel = tk.Label(self.editStudent, text="R.F.C.:");self.rfcPoTEditLabel.grid(column=2, row=2)
+        self.telefonoPoTEditLabel = tk.Label(self.editStudent, text="Telefono:");self.telefonoPoTEditLabel.grid(column=2, row=3)
+        self.celularPoTEditLabel = tk.Label(self.editStudent, text="Celular:");self.celularPoTEditLabel.grid(column=2, row=4)
+        self.emailPoTEditLabel = tk.Label(self.editStudent, text="Email:"); self.emailPoTEditLabel.grid(column=2, row=5)
+
+        #MoT
+        self.nombreMoTEditLabel = tk.Label(self.editStudent, text="Nombre Padre o Tutor:");self.nombreMoTEditLabel.grid(column=4, row=0)
+        self.curpMoTEditLabel = tk.Label(self.editStudent, text="CURP:");self.curpMoTEditLabel.grid(column=4, row=1)
+        self.rfcMoTEditLabel = tk.Label(self.editStudent, text="R.F.C.:");self.rfcMoTEditLabel.grid(column=4, row=2)
+        self.telefonoMoTEditLabel = tk.Label(self.editStudent, text="Telefono:");self.telefonoMoTEditLabel.grid(column=4, row=3)
+        self.celularMoTEditLabel = tk.Label(self.editStudent, text="Celular:");self.celularMoTEditLabel.grid(column=4, row=4)
+        self.emailMoTEditLabel = tk.Label(self.editStudent, text="Email:");self.emailMoTEditLabel.grid(column=4, row=5)
+
+
+        #Entries
+        self.nombreEditEntry = tk.Entry(self.editStudent); self.nombreEditEntry.grid(column = 1, row = 0)
+        self.fechaNacimientoEditEntry =  tk.Entry(self.editStudent); self.fechaNacimientoEditEntry.grid(column = 1, row = 1)
+        self.curpEditEntry = tk.Entry(self.editStudent); self.curpEditEntry.grid(column = 1, row = 2)
+        self.telefonoEditEntry = tk.Entry(self.editStudent); self.telefonoEditEntry.grid(column = 1, row = 3)
+        self.otroTelefonoEditEntry = tk.Entry(self.editStudent); self.otroTelefonoEditEntry.grid(column = 1, row = 4)
+
+        #PoT
+        self.nombrePoTEditEntry = tk.Entry(self.editStudent); self.nombrePoTEditEntry.grid(column = 3, row = 0);
+        self.curpPoTEditEntry = tk.Entry(self.editStudent); self.curpPoTEditEntry.grid(column=3, row=1);
+        self.rfcPoTEditEntry = tk.Entry(self.editStudent); self.rfcPoTEditEntry.grid(column=3, row=2);
+        self.telefonoPoTEditEntry = tk.Entry(self.editStudent); self.telefonoPoTEditEntry.grid(column=3, row=3);
+        self.celularPoTEditEntry = tk.Entry(self.editStudent); self.celularPoTEditEntry.grid(column=3, row=4);
+        self.emailPoTEditEntry = tk.Entry(self.editStudent);self.emailPoTEditEntry.grid(column=3, row=5);
+
+        #MoT
+        self.nombreMoTEditEntry = tk.Entry(self.editStudent);self.nombreMoTEditEntry.grid(column=5, row=0);
+        self.curpMoTEditEntry = tk.Entry(self.editStudent);self.curpMoTEditEntry.grid(column=5, row=1);
+        self.rfcMoTEditEntry = tk.Entry(self.editStudent);self.rfcMoTEditEntry.grid(column=5, row=2);
+        self.telefonoMoTEditEntry = tk.Entry(self.editStudent);self.telefonoMoTEditEntry.grid(column=5, row=3);
+        self.celularMoTEditEntry = tk.Entry(self.editStudent);self.celularMoTEditEntry.grid(column=5, row=4);
+        self.emailMoTEditEntry = tk.Entry(self.editStudent);self.emailMoTEditEntry.grid(column=5, row=5);
+
+        #Buttons
+        self.guardarEditButton = tk.Button(self.editStudent, text="GUARDAR", command=lambda: self.setEditedStudentData(xlEditObject));self.guardarEditButton.grid(row=6, column=5, sticky=E)
+
+        #get Data
+        self.getDataToEditStudent(xlEditObject, nameSelected, nameSelectedFlag)
+
 
     def updateStudentUI(self):
         if not self.updateStudent:
@@ -551,6 +614,8 @@ class Rousseau:
         self.actualizarAlumnosButton = tk.Button(self.updateStudent, text = "Actualizar Alumnos.xlsx" ,command= lambda: self.updateStudents(xlObj3)).grid(column = 1, row = 1)
 
 
+
+
     #Destroy window functions
     def destroyFindStudent(self):
         self.findStudent.destroy()
@@ -559,6 +624,8 @@ class Rousseau:
     def destroyUpdateStudent(self):
         self.updateStudent.destroy()
         self.updateStudent = None
+
+
     # Logic Functions
     def getDataFromNewStudent(self):
         self.progressBar["value"] = 10
@@ -896,9 +963,80 @@ class Rousseau:
         else:
             self.showTextBox("Error", "SELECCIONE AL ALUMNO QUE DESEA DAR DE BAJA")
 
+    def getDataToEditStudent(self, xlEditStudentObject, nameSelected, nameSelectedFlag):
+        if nameSelected:
+            c, r = xlEditStudentObject.getRowFromSpecificStudent(nameSelected)
+
+            self.rowToEditedStudent = r
+            editDict = xlEditStudentObject.getToShowAllDataFromSpecificStudent(c, r)
+
+
+            #To avoid empty elements
+            for elements, data in editDict.items():
+                if data == None:
+                    editDict[elements] = " "
+
+            self.nombreEditEntry.insert(0, editDict["nombre"])
+            self.fechaNacimientoEditEntry.insert(0, editDict["fechaNacimiento"])
+            self.curpEditEntry.insert(0, editDict["curp"])
+            self.telefonoEditEntry.insert(0, editDict["telefono"])
+            self.otroTelefonoEditEntry.insert(0, editDict["telefono2"])
+
+            #PoT
+            self.nombrePoTEditEntry.insert(0,editDict["nombrePoT"])
+            self.curpPoTEditEntry.insert(0,editDict["curpPoT"])
+            self.rfcPoTEditEntry.insert(0,editDict["rfcPoT"])
+            self.telefonoPoTEditEntry.insert(0,editDict["telefonoPoT"])
+            self.celularPoTEditEntry.insert(0,editDict["celularPoT"])
+            self.emailPoTEditEntry.insert(0,editDict["emailPoT"])
+
+            #MoT
+            self.nombreMoTEditEntry.insert(0, editDict["nombreMoT"])
+            self.curpMoTEditEntry.insert(0, editDict["curpMoT"])
+            self.rfcMoTEditEntry.insert(0, editDict["rfcMoT"])
+            self.telefonoMoTEditEntry.insert(0, editDict["telefonoMoT"])
+            self.celularMoTEditEntry.insert(0, editDict["celularMoT"])
+            self.emailMoTEditEntry.insert(0, editDict["emailMoT"])
+
+
+        else:
+            self.showTextBox("Error", "SELECCIONE AL ALUMNO(A) QUE DESEA EDITAR")
+            self.editStudent.destroy()
+
+    def setEditedStudentData(self, xlEditedStudentObject):
+        editedDict = {
+            "editedNombre": self.nombreEditEntry.get(),
+            "editedFechaNacimiento": self.fechaNacimientoEditEntry.get(),
+            "editedCurp": self.curpEditEntry.get(),
+            "editedTelefono": self.telefonoEditEntry.get(),
+            "editedOtroTelefono": self.otroTelefonoEditEntry.get(),
+
+            "editedNombrePoT": self.nombrePoTEditEntry.get(),
+            "editedCurpPoT": self.curpPoTEditEntry.get(),
+            "editedRFCPoT": self.rfcPoTEditEntry.get(),
+            "editedTelPoT": self.telefonoPoTEditEntry.get(),
+            "editedCelPoT": self.celularPoTEditEntry.get(),
+            "editedEmailPoT": self.emailPoTEditEntry.get(),
+
+            "editedNombreMoT": self.nombreMoTEditEntry.get(),
+            "editedCurpMoT": self.curpMoTEditEntry.get(),
+            "editedRFCMoT": self.rfcMoTEditEntry.get(),
+            "editedTelMoT": self.telefonoMoTEditEntry.get(),
+            "editedCelMoT": self.celularMoTEditEntry.get(),
+            "editedEmailMoT": self.emailMoTEditEntry.get()
+        }
+        xlEditedStudentObject.setEditedStudentData(editedDict, self.rowToEditedStudent)
+        xlEditedStudentObject.save()
+        del xlEditedStudentObject
+
+        self.showTextBox("Info", "ALUMNO EDITADO EXITOSAMENTE")
+        self.editStudent.destroy()
+        self.destroyFindStudent()
+
+
     def updateStudents(self, xlUpdateStudentsObject):
 
-        warningMsgBox = tk.messagebox.askyesno("Verifique", "ESTA SEGURO(A) DE PROCEDER CON ESTA OPERACION?.\nSI RESPONDE QUE SI, ESTO PODRIA DEMORAR UNOS MINUTOS \nAL FINALIZAR SERA NOTIFICADO, FAVOR DE NO CERRAR LA VENTANA.",icon = 'warning')
+        warningMsgBox = tk.messagebox.askyesno("Verifique", "ESTA SEGURO(A) DE PROCEDER CON ESTA OPERACION?.\nSI RESPONDE QUE SI, ESTO PODRIA DEMORAR UNOS MINUTOS \nAL FINALIZAR SERA NOTIFICADO(A), FAVOR DE NO CERRAR LA VENTANA.",icon = 'warning')
         print(warningMsgBox)
         if warningMsgBox == True:
             print("yes")
@@ -1117,6 +1255,27 @@ class rousseauXL:
         }
         return dict
 
+    def setEditedStudentData(self, editedDict, row):
+        self.ws.cell(row= row, column=1).value = editedDict["editedNombre"]
+        self.ws.cell(row=row, column=2).value = editedDict["editedFechaNacimiento"]
+        self.ws.cell(row=row, column=3).value = editedDict["editedCurp"]
+        self.ws.cell(row=row, column=16).value = editedDict["editedTelefono"]
+        self.ws.cell(row=row, column=17).value = editedDict["editedOtroTelefono"]
+
+        self.ws.cell(row = row, column = 23).value = editedDict["editedNombrePoT"]
+        self.ws.cell(row=row, column=25).value = editedDict["editedCurpPoT"]
+        self.ws.cell(row=row, column=26).value = editedDict["editedRFCPoT"]
+        self.ws.cell(row=row, column=31).value = editedDict["editedTelPoT"]
+        self.ws.cell(row=row, column=32).value = editedDict["editedCelPoT"]
+        self.ws.cell(row=row, column=35).value = editedDict["editedEmailPoT"]
+
+        self.ws.cell(row=row, column=36).value = editedDict["editedNombreMoT"]
+        self.ws.cell(row=row, column=38).value = editedDict["editedCurpMoT"]
+        self.ws.cell(row=row, column=39).value = editedDict["editedRFCMoT"]
+        self.ws.cell(row=row, column=44).value = editedDict["editedTelMoT"]
+        self.ws.cell(row=row, column=45).value = editedDict["editedCelMoT"]
+        self.ws.cell(row=row, column=48).value = editedDict["editedEmailMoT"]
+
     def deleteSpecificStudent(self, row):
         self.ws.delete_rows(row)
 
@@ -1198,6 +1357,7 @@ class rousseauXL:
 
             else:
                 pass
+
 def main():
     root = tk.Tk()
     w = 250;
