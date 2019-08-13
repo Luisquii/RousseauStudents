@@ -176,9 +176,11 @@ class Rousseau:
         referenciaLabel = tk.Label(self.newStudent, text="RECIBIO REFERENCIA DE NUESTRA INSTITUCION A TRAVES DE:").grid(
             row=26, column=1, columnspan=5)
 
+        siguienteAnoLabel = tk.Label(self.newStudent, text = "MARQUE LA CASILLA SI EL ALUMNO A INSCRIBIR EMPEZARA EL SIGUIENTE AÑO:", fg="green").grid(row = 28, column = 3, columnspan = 5, sticky = W)
+
         datosCompletosLabel = tk.Label(self.newStudent,
-                                       text="***REVISAR QUE TODOS LOS DATOS ESTEN COMPLETOS Y CORRECTOS***").grid(
-            row=28, column=1, columnspan=5)
+                                       text="***REVISAR QUE TODOS LOS DATOS ESTEN COMPLETOS Y CORRECTOS***", fg="red").grid(
+            row=29, column=1, columnspan=4)
 
         # Choices
         # Create a Tkinter variable
@@ -314,6 +316,9 @@ class Rousseau:
                                                                                                  sticky=E)
         pemexCB = tk.Checkbutton(self.newStudent, text="PEMEX", variable=self.pemexCBVar).grid(row=10, column=4,
                                                                                                sticky=E)
+        self.siguienteAnoCBVar = BooleanVar();
+        siguienteAnoCB = tk.Checkbutton(self.newStudent, text = "", variable= self.siguienteAnoCBVar).grid(row = 28,column = 6, sticky = W)
+
 
         # RadioButtons
         self.responsabeRBVar = StringVar();
@@ -348,7 +353,7 @@ class Rousseau:
                                         value="espectacular").grid(row=27, column=5, sticky=E)
 
         # Buttons
-        self.agregarButton = tk.Button(self.newStudent, text="Agregar", fg="black", command=self.getDataFromNewStudent)
+        self.agregarButton = tk.Button(self.newStudent, text="Agregar", fg="black", command= self.getDataFromNewStudent)
         self.agregarButton.grid(row=29, column=5, sticky=E)
         self.limpiarButton = tk.Button(self.newStudent, text="Limpiar", fg="black",
                                        command=self.clearDataFromNewStudent)
@@ -628,6 +633,7 @@ class Rousseau:
 
     # Logic Functions
     def getDataFromNewStudent(self):
+
         self.progressBar["value"] = 10
         newStudentDict = {
             "nombre": self.nombreEntry.get(),
@@ -694,6 +700,8 @@ class Rousseau:
         print(newStudentDict)
         print(newStudentPoTDict)
         print(newStudentMoTDict)
+        siguienteAno = self.siguienteAnoCBVar.get()
+
 
         if newStudentDict["nombre"] == "":
             self.showTextBox("Error", "FAVOR DE INTRODUCIR EL NOMBRE DEL ALUMNO")
@@ -713,6 +721,33 @@ class Rousseau:
             del newStudentPoTDict
             del newStudentMoTDict
             del newStudentReference
+        elif siguienteAno:
+            print("Alumno agregado para el siguiente ciclo escolar")
+            try:
+                xlObj = rousseauXL()
+                self.progressBar["value"] = 60
+                self.alumnosxlsxFlag = True
+            except:
+                messagebox.showerror("ERROR", "NO SE ENCONTRO 'Alummnos.xlsx'")
+                self.newStudent.destroy()
+                self.alumnosxlsxFlag = False
+
+
+            if self.alumnosxlsxFlag:
+                xlObj.moveAndWriteToNextYearSheet()
+                xlObj.findRowToWrite()
+                xlObj.addNewStudent(newStudentDict, newStudentPoTDict, newStudentMoTDict, newStudentReference)
+                self.progressBar["value"] = 80
+                self.clearDataFromNewStudent()
+                xlObj.moveBackToAlumnosSheet()
+                xlObj.save()
+                self.progressBar["value"] = 100
+                del self.alumnosxlsxFlag
+                del xlObj
+                self.progressBar["value"] = 0
+                self.showTextBox("Info", "Alumno(A) {} GUARDADO CON EXITO PARA EL SIGUIENTE CICLO!".format(newStudentDict["nombre"]))
+
+            return
         else:
             self.progressBar["value"] = 40
             try:
@@ -720,7 +755,7 @@ class Rousseau:
                 self.progressBar["value"] = 60
                 self.alumnosxlsxFlag = True
             except:
-                messagebox.showerror("ERROR", "NO SE ENCONTRO 'Alummnos.xlsx' SI TIENE DUDAS LEA 'README.TXT'")
+                messagebox.showerror("ERROR", "NO SE ENCONTRO 'Alummnos.xlsx'")
                 self.newStudent.destroy()
                 self.alumnosxlsxFlag = False
 
@@ -792,6 +827,7 @@ class Rousseau:
         self.sinoRBVar.set(False);
         self.referenciaRBVar.set(False);
         self.responsabeRBVar.set(False);
+        self.siguienteAnoCBVar.set(False);
 
     def getAndVerifyUsernameAndPassword(self):
         # Available usernames and passwords
@@ -1085,6 +1121,17 @@ class rousseauXL:
         else:
             nombreFlag = False
         return nombreFlag
+
+    def moveAndWriteToNextYearSheet(self):
+        try:
+            self.ws = self.wb["Siguiente ciclo"]
+        except:
+            self.wb.create_sheet('Siguiente ciclo')
+            self.ws = self.wb['Siguiente ciclo']
+
+
+    def moveBackToAlumnosSheet(self):
+        self.ws = self.wb['Alumnos']
 
     def findRowToWrite(self):
         for row in range(2, self.ws.max_row + 2):
